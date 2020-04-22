@@ -6,10 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent {
-
   constructor() { }
 
   login() {
-    alert("Iniciando sesión...");
+    var usuario = <HTMLInputElement> document.getElementById("inputUsuario");
+    alert("Iniciando sesión..." + usuario);
   }
+
+  register(){
+    alert("Registrando Usuario.....");
+  }
+
 }
