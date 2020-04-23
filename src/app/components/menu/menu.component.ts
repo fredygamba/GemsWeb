@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/entities/User';
 import { element } from 'protractor';
+import { UsersService } from 'src/app/services/users/users.service';
 
 @Component({
   selector: 'app-menu',
@@ -14,7 +15,7 @@ export class MenuComponent {
   public confPassword: string;
   public user: User;
 
-  constructor() {
+  constructor(public userService: UsersService) {
     this.email ="";
     this.password = "";
     this.confPassword = "";
@@ -23,8 +24,12 @@ export class MenuComponent {
 
   login() {
     if (this.validateEmail(this.email) && this.validatePasswordLong(this.password)) {
-      var remember = (<HTMLInputElement>document.getElementById("checkRecId")).checked;
+      var remember: boolean = (<HTMLInputElement>document.getElementById("checkRecId")).checked;
+      if (remember) {
+        this.userService.saveStorageUser({id: "1", name: null, lastname: null, email: this.email, password: this.password});
+      }
       window.alert("USUARIO CORRECTO: " + "Usuario: " + this.email + " - " + this.password + "-" + remember);
+      //Guardar usuario
     }else if (!this.validateEmail(this.email)) {
       window.alert("Correo Electronico Incorrecto");
     }else{

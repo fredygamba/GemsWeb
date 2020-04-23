@@ -8,7 +8,8 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" routerLink="/catalogue" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link dropdown-toggle" routerLink="/catalogue" href="" id="navbarDropdown" role="button"
+          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Catálogo
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -25,12 +26,15 @@
     <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
     </form>
-    <div id="login" class="contenedor-div">
+    <!-- Login and Singin buttons -->
+    <div *ngIf="user != null">
+      <!-- componente que muesta el nombre del usuario -->
+    </div>
+    <div id="login" class="contenedor-div" *ngIf="userService.user == null">
       <button type="button" class="btn btn-outline-light" data-toggle="modal" data-target="#loginModal">Iniciar
         sesión</button>
       <button type="button" class="btn btn-link" data-toggle="modal" data-target="#registerModal">Registrarme</button>
     </div>
-
   </div>
 </nav>
 
@@ -82,8 +86,8 @@
           <div class="row">
             <div class="col-sm">
               <div class="custom-control custom-checkbox mr-sm-2">
-                <input id="checkRecId" type="checkbox" class="custom-control-input" id="customControlAutosizing">
-                <label class="custom-control-label" for="customControlAutosizing">Recuérdame</label>
+                <input id="checkRecId" type="checkbox" class="custom-control-input">
+                <label class="custom-control-label" for="checkRecId">Recuérdame</label>
               </div>
             </div>
             <div id="forgottenData" class="col-sm" style="text-align: right;">
@@ -159,16 +163,17 @@
             [(ngModel)]="confPassword" required>
           <small id="smallPassReg" class="form-text text-muted"
             *ngIf="!confPassword?.includes(user.password) || confPassword?.length != user.password.length">
-            <p style="color: red;">*La contraseña NO es la misma</p> 
+            <p style="color: red;">*La contraseña NO es la misma</p>
           </small>
         </div>
-        
+
         <div class="form-group form-check">
           <input type="checkbox" class="form-check-input" id="checkCondicionUso">
-          <label class="form-check-label" for="exampleCheck1"  required>Acepto Condiciones de uso</label>
-            <button class="btn btn-default btn-xs btn btn-danger" data-toggle="modal" data-target="#modalTerminoCondiciones">
-              <span class="glyphicon glyphicon-link "></span>
-            </button>
+          <label class="form-check-label" for="exampleCheck1" required>Acepto Condiciones de uso</label>
+          <button class="btn btn-default btn-xs btn btn-danger" data-toggle="modal"
+            data-target="#modalTerminoCondiciones">
+            <span class="glyphicon glyphicon-link "></span>
+          </button>
         </div>
         <!-- </form> -->
         <!-- END FORM REGISTRARSE -->
