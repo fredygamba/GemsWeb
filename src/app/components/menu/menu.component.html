@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark " style="background-color: #273746 ;">
-  <a class="navbar-brand" href="#">Gems</a>
+  <a class="navbar-brand" href="" routerLink="/home">Gems</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -7,24 +7,19 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>
-      <li class="nav-link dropdown">
-          <button type="button" class="btn btn-secondary"  style="background-color: #273746 ;">Categorias</button>
-          <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" id="dropdownMenuReference" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent"  style="background-color: #273746 ;">
-            <span class="sr-only">Toggle Dropdown</span>
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Separated link</a>
-          </div>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Categorías
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+        <a class="nav-link" href="" routerLink="/profile">Perfil</a>
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
@@ -87,11 +82,11 @@
           <div class="row">
             <div class="col-sm">
               <div class="custom-control custom-checkbox mr-sm-2">
-                <input type="checkbox" class="custom-control-input" id="checkRecId">
+                <input id="checkRecId" type="checkbox" class="custom-control-input" id="customControlAutosizing">
                 <label class="custom-control-label" for="customControlAutosizing">Recuérdame</label>
               </div>
             </div>
-            <div class="col-sm" style="text-align: right; text-decoration: none;">
+            <div id="forgottenData" class="col-sm" style="text-align: right;">
               <a href="">Olvide mis dados</a>
             </div>
           </div>
@@ -167,6 +162,7 @@
             <p style="color: red;">*La contraseña NO es la misma</p> 
           </small>
         </div>
+        
         <div class="form-group form-check">
           <input type="checkbox" class="form-check-input" id="checkCondicionUso">
           <label class="form-check-label" for="exampleCheck1"  required>Acepto Condiciones de uso</label>
