@@ -1,0 +1,44 @@
+<div class="header">
+    <!-- boton(agregar) -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalId">+ Agregar
+        categoría</button>
+</div>
+
+<div class="categories-container">
+    <div class="card" style="width: 18rem;" *ngFor="let category of categories">
+        <div class="card-body">
+            <h5 class="card-title">{{ category.name }}</h5>
+            <a href="" class="btn btn-primary">Editar</a>
+            <a href="" class="btn btn-danger">Borrar</a>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalId" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Agregar categoría</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- FORM MATEGORIES INIT -->
+                <!-- <form> -->
+                <div class="form-group">
+                    <label for="formGroupExampleInput">Nombre</label>
+                    <input type="text" class="form-control" id="formGroupExampleInput"
+                        placeholder="Example input placeholder" [(ngModel)]="category.name">
+                </div>
+                <!-- </form>     -->
+                <!-- END FORM CATEGORIES -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" (click)="addCategory()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>

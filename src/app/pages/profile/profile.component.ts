@@ -12,7 +12,7 @@ export class ProfileComponent {
    }
 
    showUser(){
-     (this.userService.loadStorageUser() != null)?this.userService.loadStorageUser():window.alert("No hay usuario registrado");
+     (this.userService.user != null)?this.userService.loadStorageUser():window.alert("No hay usuario registrado");
    }
 
 }
