@@ -10,33 +10,37 @@ import { UsersService } from 'src/app/services/users/users.service';
 })
 export class MenuComponent {
 
-  public email: string;
-  public password: string;
-  public confPassword: string;
+  public email: string = "";
+  public password: string ="";
+  public confPassword: string ="";
   public user: User;
 
   constructor(public userService: UsersService) {
-    this.email ="";
-    this.password = "";
-    this.confPassword = "";
     this.user = { name: "", lastname: "", email: "", password: "" };
   }
-
+  /**
+   * Metodo encargado de iniciar sesion
+   */
   login() {
-    if (this.validateEmail(this.email) && this.validatePasswordLong(this.password)) {
+    if (this.validateEmail(this.email) && this.validateTextLong(this.password)) {
       var remember: boolean = (<HTMLInputElement>document.getElementById("checkRecId")).checked;
       if (remember) {
-        this.userService.saveStorageUser({id: "1", name: null, lastname: null, email: this.email, password: this.password});
+        this.userService.saveStorageUser({id: "1", name: "Yeisson", lastname: "Lopez", email: this.email, password: this.password});
+        window.alert("USUARIO CORRECTO");
       }
-      window.alert("USUARIO CORRECTO: " + "Usuario: " + this.email + " - " + this.password + "-" + remember);
-      //Guardar usuario
-    }else if (!this.validateEmail(this.email)) {
-      window.alert("Correo Electronico Incorrecto");
-    }else{
-      window.alert("Contraseña no valida");
     }
+    (!this.validateEmail(this.email))?window.alert("Correo Electronico Incorrecto"):"";
+    (!this.validateTextLong(this.password))?window.alert("Contraseña no valida"):"";
   }
-
+  /**
+   * Metodo encargado para cerrar sesión
+   */
+  exitLogin(){
+    this.userService.logOut();
+  }
+  /**
+   * Metodo encargado de registrar un nuevo usuario
+   */
   register() {
     if (this.validateRegister(this.user)) {
       window.alert("Se ha registrado con exito el usuario: " + this.user.name + " " + this.user.lastname);
@@ -44,25 +48,13 @@ export class MenuComponent {
   }
 
   /**
-   * Metodo para validar si un email cuenta con arroba y .com
+   * Metodo para validar si un email cuenta con arroba y .com /// string.includes(".com") && (string.includes("@"))
    * @param string 
    */
   validateEmail(string:string):boolean{
-    if (string.length > 5) {
-      if (string.includes(".com") && (string.includes("@"))) {
-        return true;
-      }
+    if (this.validateTextLong(string)) {
+      return(string.match("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"))?true:false;
     }
-    return false;
-  }
-  /**
-   * Metodo pra validar si una contraseña cuenta con la longitud correspondiente
-   */
-  validatePasswordLong(string:string):boolean{
-    if (string.length > 4) {
-      return true;
-    }
-    return false;
   }
   /**
    * Metodo para validar que la longitud de una cadena sea la adecuada para 
@@ -70,22 +62,16 @@ export class MenuComponent {
    * @param string 
    */
   validateTextLong(string:string):boolean{
-    if (string.length > 4) {
-      return true;
-    }
-    return false;
+    return (string.length > 4)?true:false;
   }
   /**
    * Metodo para validar si una cadena tiene numeros
    * @param string 
    */
   validateNumberInName(string:string):boolean{
-    if (string.length > 4) {
-      if (!string.match("[0-9]+")) {
-         return true;
-      }
+    if (this.validateTextLong(string)) {
+      return (!string.match("[0-9]+"))?true:false;
     }
-    return false;
   }
   /**
    * Metodo que valida todos los campos del registro del nuevo Usuario
@@ -93,17 +79,9 @@ export class MenuComponent {
    */
   validateRegister(user: User): boolean {
     if (user != undefined && user != null) {
-      if (this.validateLongCamposRegistro(user)) {
-        if (this.validateNameUserRegistre(user)) {
-          if (this.validateTermsOfUse()) {
-            if (this.validatePasswordsRegistre(user.password,this.confPassword)) {
-              return true;
-            }
-          }
-        }
-      }
-    } 
-    return false;
+    return (this.validateLongCamposRegistro(user) && this.validateNameUserRegistre(user) && this.validateTermsOfUse() &&
+    this.validatePasswordsRegistre(user.password,this.confPassword))?true:false;
+    }
   }
   /**
    * Metodo para validar Si se acepto termino de de las Condiciones de Uso del
@@ -123,23 +101,14 @@ export class MenuComponent {
    * @param user 
    */
   validateNameUserRegistre(user:User):boolean{
-      if (this.validateNumberInName(user.name) && this.validateNumberInName(user.lastname)) {
-        return true;
-      }else if (!this.validateNumberInName(user.name)) {
-        window.alert("El nombre no debe contener caracteres númericos");
-      }else if (!this.validateNumberInName(user.lastname)){
-        window.alert("El apellido no debe contener caracteres númericos");
-      }
-      return false;
+      (!this.validateNumberInName(user.name))?window.alert("El nombre no debe contener caracteres númericos"):"";
+      (!this.validateNumberInName(user.lastname))?window.alert("El apellido no debe contener caracteres númericos"):"";
+      return (this.validateNumberInName(user.name) && this.validateNumberInName(user.lastname))?true:false;
   }
 
   validatePasswordsRegistre(passwordUser:string, passwordConf:string): boolean{
-    if (passwordUser === passwordConf) {
-      return true;
-    }else{
-      window.alert("Las contraseñas no coinciden");
-      return false;
-    }
+    (passwordUser === passwordConf)?"":window.alert("Las contraseñas no coinciden");
+    return (passwordUser === passwordConf)?true:false;
   }
 
   /**
@@ -147,22 +116,13 @@ export class MenuComponent {
    * @param user 
    */
   validateLongCamposRegistro(user:User):boolean{
-
-    if (this.validateTextLong(user.name) && this.validateTextLong(user.lastname) 
-      && this.validateEmail(user.email) && this.validatePasswordLong(user.password)) {
-        return true;
-      }else{
-        if (this.validateTextLong(user.name) == false) {
-          window.alert("Longitud nombre debe ser minimo 5 caracteres");
-        }else if (this.validateTextLong(user.lastname) == false) {
-          window.alert("Longitud apellido debe ser minimo 5 caracteres");
-        }else if (this.validateEmail(user.email) == false) {
-          window.alert("Correo electronico invalido");
-        }else if (this.validatePasswordLong(user.password) == false) {
-          window.alert("Longitud de la Contraseña debe ser minimo 5 caracteres");
-        }
-      }
-    return false;
+    var aux:boolean=(this.validateTextLong(user.name) && this.validateTextLong(user.lastname)&& this.validateEmail(user.email) && this.validateTextLong(user.password));
+    (!this.validateTextLong(user.name))?window.alert("Longitud nombre debe ser minimo 5 caracteres"):"";
+    (!this.validateTextLong(user.lastname))?window.alert("Longitud apellido debe ser minimo 5 caracteres"):"";
+    (!this.validateEmail(user.email))?window.alert("Correo electronico invalido"):"";
+    (!this.validateTextLong(user.password))?window.alert("Longitud de la Contraseña debe ser minimo 5 caracteres"):"";
+   
+    return aux;
   }
-
+  
 }

@@ -20,15 +20,26 @@
         </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="" routerLink="/profile">Perfil</a>
+        <a class="nav-link" href="">Contacto</a>
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
     </form>
     <!-- Login and Singin buttons -->
-    <div *ngIf="user != null">
+    <div id="login" class="contenedor-div" *ngIf="userService.user != null">
       <!-- componente que muesta el nombre del usuario -->
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" style="background-color: #273746 ;"
+          id="UserLogguer" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {{userService.user.name}}
+        </button>
+        <div class="dropdown-menu" aria-labelledby="UserLogguer">
+          <a class="dropdown-item" routerLink="/profile">Mi Cuenta</a>
+          <a class="dropdown-item" href="">Mis compras</a>
+          <a class="dropdown-item" (click)="exitLogin()">Salir</a>
+        </div>
+      </div>
     </div>
     <div id="login" class="contenedor-div" *ngIf="userService.user == null">
       <button type="button" class="btn btn-outline-light" data-toggle="modal" data-target="#loginModal">Iniciar
@@ -110,7 +121,7 @@
 <!-- Modal Register -->
 <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
   aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable" role="document">
+  <div class="modal-dialog modal-dialog-scrollable modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color: #EAECEE;">
         <h5 class="modal-title" id="exampleModalScrollableTitle">Registrar</h5>
@@ -166,10 +177,9 @@
             <p style="color: red;">*La contraseña NO es la misma</p>
           </small>
         </div>
-
-        <div class="form-group form-check">
-          <input type="checkbox" class="form-check-input" id="checkCondicionUso">
-          <label class="form-check-label" for="exampleCheck1" required>Acepto Condiciones de uso</label>
+        <div class="custom-control custom-checkbox mr-sm-2">
+          <input id="checkCondicionUso" type="checkbox" class="custom-control-input">
+          <label class="custom-control-label" for="checkCondicionUso">Acepto Condiciones de uso</label>
           <button class="btn btn-default btn-xs btn btn-danger" data-toggle="modal"
             data-target="#modalTerminoCondiciones">
             <span class="glyphicon glyphicon-link "></span>

@@ -15,6 +15,7 @@ export class UsersService {
   getUser() { }
   getUsers() { }
 
+  /**Cargar Usuario */
   loadStorageUser() {
     this.user = JSON.parse(localStorage.getItem("user"));
   }
@@ -22,7 +23,15 @@ export class UsersService {
   removeUser() { }
 
   saveStorageUser(user: User) {
+    /**Asignó a la variable una clave/valor */
     localStorage.setItem("user", JSON.stringify(user));
+  }
+  /**
+   * Metodo para terminar "sesión"
+   */
+  logOut(){
+    this.user = null;
+    localStorage.setItem("user",null);
   }
 
 }
