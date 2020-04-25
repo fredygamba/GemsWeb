@@ -11,6 +11,13 @@ import { CatalogueComponent } from './pages/catalogue/catalogue.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { CategoriesComponent } from './pages/categories/categories.component';
 
+// Firebase
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireStorageModule } from 'angularfire2/storage';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { environment } from '../environments/environment';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,8 +29,12 @@ import { CategoriesComponent } from './pages/categories/categories.component';
     CategoriesComponent
   ],
   imports: [
-    BrowserModule,
+    AngularFireAuthModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireStorageModule,
+    AngularFirestoreModule,
     AppRoutingModule,
+    BrowserModule,
     FormsModule
   ],
   providers: [],
