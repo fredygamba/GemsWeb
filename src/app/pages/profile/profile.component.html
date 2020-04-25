@@ -1,14 +1,11 @@
-<div class="div-center row">
-    <div class="list-group">
-        <button type="button" class="list-group-item btn-outline-dark" (click)="showUser()">Mi Perfil</button>
-        <button type="button" class="list-group-item btn btn-outline-primary">Mis compras</button>
-        <button type="button" class="list-group-item" disabled>Administrador</button>
-        <button type="button" class="list-group-item btn-outline-primary" >Categorias</button>
-        <button type="button" class="list-group-item btn-outline-primary" >Iconos</button>
-        <button type="button" class="list-group-item btn-outline-primary" >Usuarios</button>
-      </div>
-      <div class="">
-          <p></p>
-          <p></p>
-      </div>
+<div class="div-profile">
+
+</div>
+<div class="div-user-img">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1024px-User_icon_2.svg.png"
+        width="70px" height="70px" alt="">
+</div>
+<div>
+    <h1 id="info-user-name">{{ userService.user.name }} {{ userService.user.lastname }}</h1>
+    <h5 id="info-user-email">{{ userService.user.email}}</h5>
 </div>

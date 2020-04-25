@@ -62,6 +62,7 @@ export class MenuComponent {
    * @param string 
    */
   validateTextLong(string:string):boolean{
+    string.trim();
     return (string.length > 4)?true:false;
   }
   /**

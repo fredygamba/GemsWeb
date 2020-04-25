@@ -1,7 +1,15 @@
 <div class="header">
-    <!-- boton(agregar) -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalId">+ Agregar
-        categoría</button>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalId">+ Agregar
+                    categoría</button>
+            </div>
+            <div class="col-sm">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="categories-container">
@@ -31,6 +39,10 @@
                     <label for="formGroupExampleInput">Nombre</label>
                     <input type="text" class="form-control" id="formGroupExampleInput"
                         placeholder="Example input placeholder" [(ngModel)]="category.name">
+                    <small id="smallNameUserReg" class="form-text text-muted"
+                        *ngIf="(category.name?.length > 0)&&(category.name?.length < 3)">
+                        <p style="color: red;">*El nombre de la categoría debe tener mas de 3 caracteres</p>
+                    </small>
                 </div>
                 <!-- </form>     -->
                 <!-- END FORM CATEGORIES -->
