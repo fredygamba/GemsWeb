@@ -29,12 +29,13 @@
       <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" style="background-color: #273746 ;"
           id="UserLogguer" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          {{ userService.user.name }}
+          {{ userService.user?.name }}
         </button>
-        <div class="dropdown-menu" aria-labelledby="UserLogguer">
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="UserLogguer">
           <a class="dropdown-item" routerLink="/settings">Mi Cuenta</a>
           <a class="dropdown-item" href="">Mis compras</a>
-          <a class="dropdown-item" (click)="exitLogin()">Salir</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" (click)="exitLogin()">Cerrar sesión</a>
         </div>
       </div>
     </div>

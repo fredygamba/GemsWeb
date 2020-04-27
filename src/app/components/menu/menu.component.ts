@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/entities/User';
 import { element } from 'protractor';
 import { UsersService } from 'src/app/services/users/users.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-menu',
@@ -15,7 +16,7 @@ export class MenuComponent {
   public confPassword: string ="";
   public user: User;
 
-  constructor(public userService: UsersService) {
+  constructor(public userService: UsersService, private modalService: NgbModal) {
     this.user = { name: "", lastname: "", email: "", password: "" };
   }
   /**
@@ -26,7 +27,7 @@ export class MenuComponent {
       var remember: boolean = (<HTMLInputElement>document.getElementById("checkRecId")).checked;
       if (remember) {
         this.userService.saveStorageUser({id: "1", name: "Yeisson", lastname: "Lopez", email: this.email, password: this.password});
-        window.alert("USUARIO CORRECTO");
+        document.getElementById("loginModal").click();
       }
     }
     (!this.validateEmail(this.email))?window.alert("Correo Electronico Incorrecto"):"";

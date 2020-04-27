@@ -15,7 +15,6 @@ export class AppComponent implements OnInit{
 
   ngOnInit(): void {
     this.usersService.loadStorageUser();
-    // console.log(this.usersService.user);
   }
 
 }

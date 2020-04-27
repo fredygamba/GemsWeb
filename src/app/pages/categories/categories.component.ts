@@ -17,14 +17,18 @@ export class CategoriesComponent implements OnInit {
     this.category = { name: null };
     this.categories = [];
   }
-  
+
   /**
    * Metodo para agregar una nueva categoria
    */
   addCategory() {
     // (this.validateCategory(this.category))?this.categories.push(this.category):window.alert("Nombre no valido, la longitud debe ser mayor a 3 caracteres");
-    this.categoriesService.addCategory(this.category);
-    document.getElementById("categoryModal").click();
+    this.categoriesService.addCategory(this.category).then(res => {
+      document.getElementById("categoryModal").click();
+    }).catch(error => {
+      alert("Se ha generado un error.");
+      console.log(error);
+    });
   }
 
   editCategory(categoryId: string) {
@@ -48,7 +52,7 @@ export class CategoriesComponent implements OnInit {
     if (this.validateCategory(this.category)) {
       if (categoryId == null) {
         this.addCategory();
-      } else{
+      } else {
         this.editCategory(categoryId);
       }
     }
@@ -70,14 +74,14 @@ export class CategoriesComponent implements OnInit {
     return (this.validateTextLong(category.name) && (this.validateNumberInCategory(category.name))) ? true : false;
   }
 
-    /**
-   * Metodo para validar si una cadena tiene numeros
-   * @param string 
-   */
-  validateNumberInCategory(string:string):boolean{
+  /**
+ * Metodo para validar si una cadena tiene numeros
+ * @param string 
+ */
+  validateNumberInCategory(string: string): boolean {
     if (this.validateTextLong(string)) {
-      (string.match("[0-9]+"))?window.alert("La categoría no debe tener numeros"):"";
-      return (!string.match("[0-9]+"))?true:false;
+      (string.match("[0-9]+")) ? window.alert("La categoría no debe tener numeros") : "";
+      return (!string.match("[0-9]+")) ? true : false;
     }
   }
 
@@ -86,8 +90,8 @@ export class CategoriesComponent implements OnInit {
  * los campos de un formulario
  * @param string 
  */
-  validateTextLong(parameter: string): boolean {
-    return (parameter.length >= 3) ? true : false;
+  validateTextLong(text: string): boolean {
+    return text.length > 3;
   }
 
 }

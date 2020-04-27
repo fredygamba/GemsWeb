@@ -8,7 +8,7 @@ export class UsersService {
 
   public user: User;
 
-  constructor() {}
+  constructor() { }
 
   addUser() { }
   editUser() { }
@@ -23,15 +23,16 @@ export class UsersService {
   removeUser() { }
 
   saveStorageUser(user: User) {
+    this.user = user;
     /**Asignó a la variable una clave/valor */
     localStorage.setItem("user", JSON.stringify(user));
   }
   /**
    * Metodo para terminar "sesión"
    */
-  logOut(){
+  logOut() {
     this.user = null;
-    localStorage.setItem("user",null);
+    localStorage.setItem("user", null);
   }
 
 }
