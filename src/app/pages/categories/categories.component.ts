@@ -39,10 +39,13 @@ export class CategoriesComponent implements OnInit {
   ngOnInit(): void {
     this.getCategories();
   }
-
+  /**
+   * Metodo para almacenar/guardar cambios de una categoria
+   * @param categoryId 
+   */
   save(categoryId: string) {
     // Validar categoría
-    if (true) {
+    if (this.validateCategory(this.category)) {
       if (categoryId == null) {
         this.addCategory();
       } else{
@@ -59,17 +62,32 @@ export class CategoriesComponent implements OnInit {
     }
   }
   /**
+   * Metodo para validar una categoria
+   * @param category 
+   */
+  validateCategory(category: Category): boolean {
+    category.name.trim();
+    return (this.validateTextLong(category.name) && (this.validateNumberInCategory(category.name))) ? true : false;
+  }
+
+    /**
+   * Metodo para validar si una cadena tiene numeros
+   * @param string 
+   */
+  validateNumberInCategory(string:string):boolean{
+    if (this.validateTextLong(string)) {
+      (string.match("[0-9]+"))?window.alert("La categoría no debe tener numeros"):"";
+      return (!string.match("[0-9]+"))?true:false;
+    }
+  }
+
+  /**
  * Metodo para validar que la longitud de una cadena sea la adecuada para 
  * los campos de un formulario
  * @param string 
  */
   validateTextLong(parameter: string): boolean {
-    return (parameter.length > 4) ? true : false;
-  }
-
-  validateCategory(category: Category): boolean {
-    category.name.trim();
-    return (this.validateTextLong(category.name)) ? true : false;
+    return (parameter.length >= 3) ? true : false;
   }
 
 }

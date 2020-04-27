@@ -13,19 +13,31 @@ export class CategoriesService {
   constructor(private firestore: AngularFirestore) {
     this.categoriesCollection = firestore.collection<Category>('categories', ref => ref.orderBy("name"));
   }
-
+  /**
+   * Metodo para agregar una categoria a firebase
+   * @param category 
+   */
   addCategory(category: Category) {
     return this.categoriesCollection.add(category);
   }
-
+  /**
+   * Metodo para editar una categoriay actualizar los datos en firebase
+   * @param id 
+   * @param category 
+   */
   editCategory(id: string, category: Category) {
     return this.categoriesCollection.doc(id).update(category);
   }
-
+  /**
+   * Metodo para obtener una categoria especificada por un identificador
+   * @param id 
+   */
   getCategory(id: string) {
     return this.categoriesCollection.doc<Category>(id).valueChanges();
   }
-
+  /**
+   * Metodo para obtener todas las categorias
+   */
   getCategories() {
     return this.categoriesCollection.snapshotChanges().pipe(map(
       actions => {
@@ -37,7 +49,10 @@ export class CategoriesService {
       }
     ));
   }
-
+  /**
+   * Metodo para eliminar una categoria por el identificador
+   * @param id 
+   */
   removeCategory(id: string) {
     return this.categoriesCollection.doc(id).delete();
   }
