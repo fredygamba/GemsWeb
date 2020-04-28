@@ -12,11 +12,13 @@ export class CategoriesComponent implements OnInit {
 
   public category: Category;
   public categories: Category[];
+  public filteredCategories: Category[];
   public searchText: string;
 
   constructor(private categoriesService: CategoriesService) {
     this.category = { name: null };
     this.categories = [];
+    this.filteredCategories = [];
   }
 
   func(){
@@ -45,10 +47,30 @@ export class CategoriesComponent implements OnInit {
 
   editCategory(categoryId: string) {
   }
+  /**
+   * Metodo para filtrar categorías
+   */
+  filterCategories() {
+    this.filteredCategories = [];
+    if(this.searchText == undefined){
+      return this.categories;
+    }else{
+      for (let i = 0; i < this.categories.length; i++) {
+        var categoryAux = this.categories[i].name.toLowerCase();
+        if (categoryAux.includes(this.searchText.toLowerCase())) {
+          //console.log("categoria : " + categoryAux + " palabra a buscar " + this.searchText.toLowerCase());
+          this.filteredCategories.push(this.categories[i]);
+        }
+      }
+      return this.filteredCategories;
+    }
+    
+  }
 
   getCategories() {
     this.categoriesService.getCategories().subscribe(result => {
       this.categories = result;
+      this.filteredCategories = result;
     });
   }
 

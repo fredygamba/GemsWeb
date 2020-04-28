@@ -7,7 +7,7 @@
             </div>
             <div class="col-6"></div>
             <div class="col-">
-                <input class="form-control mr-sm-1" [(ngModel)]="searchText" type="search" placeholder="Buscar..."
+                <input class="form-control mr-sm-1" (keyup)="filterCategories()" [(ngModel)]="searchText" type="search" placeholder="Buscar..."
                     aria-label="Search">
             </div>
         </div>
@@ -17,7 +17,7 @@
 <!-- Contenedor de categorías -->
 <div class="categories-container">
     <div class="row">
-        <div *ngFor="let category of categories">
+        <div *ngFor="let category of filteredCategories">
             <app-category class="col" [category]="category"></app-category>
         </div>
     </div>
