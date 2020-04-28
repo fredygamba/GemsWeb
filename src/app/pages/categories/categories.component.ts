@@ -13,10 +13,12 @@ export class CategoriesComponent implements OnInit {
   public category: Category;
   public categories: Category[];
   public searchText: string;
+  public filteredCategories: Category[];
 
   constructor(private categoriesService: CategoriesService) {
     this.category = { name: null };
     this.categories = [];
+    this.filteredCategories = [];
   }
 
   /**
@@ -29,7 +31,25 @@ export class CategoriesComponent implements OnInit {
     }).catch(error => {
       alert("Se ha generado un error.");
       console.log(error);
+
     });
+  }
+
+  filterCategories() {
+    this.filteredCategories = [];
+    if(this.searchText == undefined){
+      return this.categories;
+    }else{
+      for (let i = 0; i < this.categories.length; i++) {
+        var categoryAux = this.categories[i].name.toLowerCase();
+        if (categoryAux.includes(this.searchText.toLowerCase())) {
+          //console.log("categoria : " + categoryAux + " palabra a buscar " + this.searchText.toLowerCase());
+          this.filteredCategories.push(this.categories[i]);
+        }
+      }
+      return this.filteredCategories;
+    }
+    
   }
 
   public contains(category: Category, text: string) {
@@ -45,6 +65,7 @@ export class CategoriesComponent implements OnInit {
   getCategories() {
     this.categoriesService.getCategories().subscribe(result => {
       this.categories = result;
+      this.filteredCategories = result;
     });
   }
 
@@ -66,13 +87,6 @@ export class CategoriesComponent implements OnInit {
     }
   }
 
-  removeCategory(categoryId: string) {
-    if (confirm("¿Deséas eliminar esta categoría?")) {
-      this.categoriesService.removeCategory(categoryId)
-        .then(() => { console.log("Eliminado!"); })
-        .catch(error => { alert("Ha ocurrido un error al eliminar la categoría."); });
-    }
-  }
   /**
    * Metodo para validar una categoria
    * @param category 
