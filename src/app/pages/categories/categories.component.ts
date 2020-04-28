@@ -12,6 +12,7 @@ export class CategoriesComponent implements OnInit {
 
   public category: Category;
   public categories: Category[];
+  public searchText: string;
 
   constructor(private categoriesService: CategoriesService) {
     this.category = { name: null };
@@ -31,12 +32,18 @@ export class CategoriesComponent implements OnInit {
     });
   }
 
+  public contains(category: Category, text: string) {
+    if (text != undefined) {
+      return category.name.includes(text);
+    }
+    return true;
+  }
+
   editCategory(categoryId: string) {
   }
 
   getCategories() {
     this.categoriesService.getCategories().subscribe(result => {
-      console.log(this.categories);
       this.categories = result;
     });
   }
