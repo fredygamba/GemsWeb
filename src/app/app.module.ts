@@ -19,6 +19,7 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { environment } from '../environments/environment';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CategoryComponent } from './components/category/category.component';
+import { UsersComponent } from './pages/users/users.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { CategoryComponent } from './components/category/category.component';
     CatalogueComponent,
     SettingsComponent,
     CategoriesComponent,
-    CategoryComponent
+    CategoryComponent,
+    UsersComponent
   ],
   imports: [
     AngularFireAuthModule,

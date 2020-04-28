@@ -9,7 +9,7 @@ import { Category } from 'src/app/entities/Category';
 export class CategoryComponent {
 
   @Input()
-  private category: Category;
+  public category: Category;
 
   constructor() { }
 

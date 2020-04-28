@@ -19,6 +19,10 @@ export class CategoriesComponent implements OnInit {
     this.categories = [];
   }
 
+  func(){
+    console.log("Hola");
+  }
+
   /**
    * Metodo para agregar una nueva categoria
    */

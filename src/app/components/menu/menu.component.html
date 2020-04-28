@@ -24,12 +24,12 @@
       </li>
     </ul>
     <!-- Login and Singin buttons -->
-    <div id="login" class="contenedor-div" *ngIf="userService.user != null">
+    <div id="login" class="contenedor-div" *ngIf="usersService.user != null">
       <!-- componente que muesta el nombre del usuario -->
       <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" style="background-color: #273746 ;"
           id="UserLogguer" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          {{ userService.user?.name }}
+          {{ usersService.user?.name }}
         </button>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="UserLogguer">
           <a class="dropdown-item" routerLink="/settings">Mi Cuenta</a>
@@ -39,7 +39,7 @@
         </div>
       </div>
     </div>
-    <div id="login" class="contenedor-div" *ngIf="userService.user == null">
+    <div id="login" class="contenedor-div" *ngIf="usersService.user == null">
       <button type="button" class="btn btn-outline-light" data-toggle="modal" data-target="#loginModal">Iniciar
         sesión</button>
       <button type="button" class="btn btn-link" data-toggle="modal" data-target="#registerModal">Registrarme</button>
@@ -97,7 +97,7 @@
           <label for="exampleInputPassword1">Contraseña</label>
           <input type="password" class="form-control" id="inputContrasenia" placeholder="Contraseña"
             [(ngModel)]="password" required>
-          <small id="smallPassLog" class="form-text text-muted" *ngIf="!validateTextLong(password.trim())">
+          <small id="smallPassLog" class="form-text text-muted" *ngIf="!validateTextLong(password)">
             <p style="color: red;">*La contraseña debe tener más de 5 caracteres</p>
           </small>
         </div>

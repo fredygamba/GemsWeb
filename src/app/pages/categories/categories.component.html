@@ -16,9 +16,9 @@
 
 <!-- Contenedor de categorías -->
 <div class="categories-container">
-    <div class="row row-cols-1 row-cols-md-3">
-        <div class="col mb-4" *ngFor="let category of categories">
-            <app-category *ngIf="contains(category, this.searchText)" [category]="category"></app-category>
+    <div class="row">
+        <div *ngFor="let category of categories">
+            <app-category class="col" [category]="category"></app-category>
         </div>
     </div>
 </div>
