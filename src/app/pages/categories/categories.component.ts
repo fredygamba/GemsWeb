@@ -70,8 +70,7 @@ export class CategoriesComponent implements OnInit {
    * @param category 
    */
   validateCategory(category: Category): boolean {
-    category.name.trim();
-    return (this.validateTextLong(category.name) && (this.validateNumberInCategory(category.name))) ? true : false;
+    return (this.validateTextLong(category.name.trim()) && (this.validateNumberInCategory(category.name.trim()))) ? true : false;
   }
 
   /**
@@ -91,7 +90,7 @@ export class CategoriesComponent implements OnInit {
  * @param string 
  */
   validateTextLong(text: string): boolean {
-    return text.length > 3;
+    return text?.length > 3;
   }
 
 }

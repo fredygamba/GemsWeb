@@ -23,7 +23,7 @@ export class MenuComponent {
    * Metodo encargado de iniciar sesion
    */
   login() {
-    if (this.validateEmail(this.email) && this.validateTextLong(this.password)) {
+    if (this.validateEmail(this.email.trim()) && this.validateTextLong(this.password.trim())) {
       var remember: boolean = (<HTMLInputElement>document.getElementById("checkRecId")).checked;
       if (remember) {
         this.userService.saveStorageUser({id: "1", name: "Yeisson", lastname: "Lopez", email: this.email, password: this.password});
@@ -38,6 +38,7 @@ export class MenuComponent {
    */
   exitLogin(){
     this.userService.logOut();
+    document.getElementById("confSignOff").click();
   }
   /**
    * Metodo encargado de registrar un nuevo usuario
@@ -45,6 +46,7 @@ export class MenuComponent {
   register() {
     if (this.validateRegister(this.user)) {
       window.alert("Se ha registrado con exito el usuario: " + this.user.name + " " + this.user.lastname);
+      document.getElementById("registerModal").click();
     }
   }
 
@@ -63,7 +65,6 @@ export class MenuComponent {
    * @param string 
    */
   validateTextLong(string:string):boolean{
-    string.trim();
     return (string.length > 4)?true:false;
   }
   /**
@@ -82,7 +83,7 @@ export class MenuComponent {
   validateRegister(user: User): boolean {
     if (user != undefined && user != null) {
     return (this.validateLongCamposRegistro(user) && this.validateNameUserRegistre(user) && this.validateTermsOfUse() &&
-    this.validatePasswordsRegistre(user.password,this.confPassword))?true:false;
+    this.validatePasswordsRegistre(user.password.trim(),this.confPassword.trim()))?true:false;
     }
   }
   /**
@@ -103,9 +104,9 @@ export class MenuComponent {
    * @param user 
    */
   validateNameUserRegistre(user:User):boolean{
-      (!this.validateNumberInName(user.name))?window.alert("El nombre no debe contener caracteres númericos"):"";
-      (!this.validateNumberInName(user.lastname))?window.alert("El apellido no debe contener caracteres númericos"):"";
-      return (this.validateNumberInName(user.name) && this.validateNumberInName(user.lastname))?true:false;
+      (!this.validateNumberInName(user.name.trim()))?window.alert("El nombre no debe contener caracteres númericos"):"";
+      (!this.validateNumberInName(user.lastname.trim()))?window.alert("El apellido no debe contener caracteres númericos"):"";
+      return (this.validateNumberInName(user.name.trim()) && this.validateNumberInName(user.lastname.trim()))?true:false;
   }
 
   validatePasswordsRegistre(passwordUser:string, passwordConf:string): boolean{
@@ -118,11 +119,11 @@ export class MenuComponent {
    * @param user 
    */
   validateLongCamposRegistro(user:User):boolean{
-    var aux:boolean=(this.validateTextLong(user.name) && this.validateTextLong(user.lastname)&& this.validateEmail(user.email) && this.validateTextLong(user.password));
-    (!this.validateTextLong(user.name))?window.alert("Longitud nombre debe ser minimo 5 caracteres"):"";
-    (!this.validateTextLong(user.lastname))?window.alert("Longitud apellido debe ser minimo 5 caracteres"):"";
-    (!this.validateEmail(user.email))?window.alert("Correo electronico invalido"):"";
-    (!this.validateTextLong(user.password))?window.alert("Longitud de la Contraseña debe ser minimo 5 caracteres"):"";
+    var aux:boolean=(this.validateTextLong(user.name.trim()) && this.validateTextLong(user.lastname.trim())&& this.validateEmail(user.email.trim()) && this.validateTextLong(user.password.trim()));
+    (!this.validateTextLong(user.name.trim()))?window.alert("Longitud nombre debe ser minimo 5 caracteres"):"";
+    (!this.validateTextLong(user.lastname.trim()))?window.alert("Longitud apellido debe ser minimo 5 caracteres"):"";
+    (!this.validateEmail(user.email.trim()))?window.alert("Correo electronico invalido"):"";
+    (!this.validateTextLong(user.password.trim()))?window.alert("Longitud de la Contraseña debe ser minimo 5 caracteres"):"";
    
     return aux;
   }

@@ -35,7 +35,7 @@
           <a class="dropdown-item" routerLink="/settings">Mi Cuenta</a>
           <a class="dropdown-item" href="">Mis compras</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" (click)="exitLogin()">Cerrar sesión</a>
+          <a class="dropdown-item" data-toggle="modal" data-target="#confSignOff">Cerrar sesión</a>
         </div>
       </div>
     </div>
@@ -47,7 +47,30 @@
   </div>
 </nav>
 
-<!-- Modal login -->
+<!-------------------------------------------------- MODAL SIGN OFF ----------------------------------------->
+<div class="modal fade" id="confSignOff" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Cerrar sesión</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ¿Está seguro que desea cerrar sesión?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="exitLogin()">Cerrar sesión</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- END MODAL SIGN OFF -->
+
+<!--------------------------------------------- MODAL LOGIN ------------------------------------------->
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -61,24 +84,12 @@
       <div class="modal-body">
         <!-- FORM LOGIN -->
         <!-- <form> -->
-        <!-- <div>
-                    <div class="container-fluid">
-                        <img src="img/logo.png" class="img-rounded" alt="logo" width="304" height="236" />
-                    </div>
-                </div> -->
-        <!-- <div id="containerIcon">
-                    <svg  class="bi bi-person-fill" width="1em" height="1em" viewBox="0 0 16 16"
-                        fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 100-6 3 3 0 000 6z"
-                            clip-rule="evenodd" />
-                    </svg>
-                </div> -->
         <div class="form-group">
           <label for="exampleInputEmail1">Correo electrónico</label>
           <input type="email" class="form-control" id="inputUsuario" placeholder="Usuario" [(ngModel)]="email"
             aria-describedby="emailHelp" required>
           <small id="smallUserLog" class="form-text text-muted"
-            *ngIf="(email?.length > 0 && email?.length < 5)||(!email?.includes('.com') || !email?.includes('@'))">
+            *ngIf="!validateEmail(email.trim()) && !validateTextLong(email.trim())">
             <p style="color: red;">*Email no valido</p>
           </small>
         </div>
@@ -86,11 +97,10 @@
           <label for="exampleInputPassword1">Contraseña</label>
           <input type="password" class="form-control" id="inputContrasenia" placeholder="Contraseña"
             [(ngModel)]="password" required>
-          <small id="smallPassLog" class="form-text text-muted" *ngIf="(password?.length > 0)&&(password?.length < 5)">
+          <small id="smallPassLog" class="form-text text-muted" *ngIf="!validateTextLong(password.trim())">
             <p style="color: red;">*La contraseña debe tener más de 5 caracteres</p>
           </small>
         </div>
-
         <div class="container">
           <div class="row">
             <div class="col-sm">
@@ -114,9 +124,9 @@
     </div>
   </div>
 </div>
-<!-- Modal close -->
+<!-- MODAL LOGIN OFF -->
 
-<!-- Modal Register -->
+<!---------------------------------------------------- MODAL REGISTER -------------------------------------->
 <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-dialog modal-dialog-centered" role="document">
@@ -135,7 +145,7 @@
           <input type="email" class="form-control" id="inputNombreRegistro" placeholder="Nombre"
             aria-describedby="emailHelp" [(ngModel)]="user.name" required>
           <small id="smallNameUserReg" class="form-text text-muted"
-            *ngIf="(user.name?.length > 0)&&(user.name?.length < 3)">
+            *ngIf="!validateTextLong(user.name?.trim())">
             <p style="color: red;">*El nombre debe tener mas de 3 caracteres</p>
           </small>
         </div>
@@ -144,7 +154,7 @@
           <input type="email" class="form-control" id="inputApellidoRegistro" placeholder="Apellido"
             aria-describedby="emailHelp" [(ngModel)]="user.lastname" required>
           <small id="smallLastameUserReg" class="form-text text-muted"
-            *ngIf="(user.lastname?.length > 0)&&(user.lastname?.length < 3)">
+            *ngIf="!validateTextLong(user.lastname?.trim())">
             <p style="color: red;">*El apellido debe tener mas de 3 caracteres</p>
           </small>
         </div>
@@ -153,7 +163,7 @@
           <input type="email" [(ngModel)]="user.email" class="form-control" id="inputApellidoRegistro"
             placeholder="Correo Electronico" aria-describedby="emailHelp" required>
           <small id="smallEmailReg" class="form-text text-muted"
-            *ngIf="(user.email?.length > 0 && user.email?.length < 5)||(!user.email?.includes('com') || !user.email?.includes('@'))">
+            *ngIf="(!validateEmail(user.email?.trim())) && !(validateTextLong(user.email?.trim()))">
             <p style="color: red;">*Email no valido</p>
           </small>
         </div>
@@ -162,7 +172,7 @@
           <input type="password" class="form-control" placeholder="Contraseña" id="inputContrasenia"
             [(ngModel)]="user.password" required>
           <small id="smallPassReg" class="form-text text-muted"
-            *ngIf="(user.password?.length > 0)&&(user.password?.length < 5)">
+            *ngIf="!validateTextLong(user.password?.trim())">
             <p style="color: red;">*Contraseña debe tener minimo 5 caracteres</p>
           </small>
         </div>
@@ -195,7 +205,7 @@
 </div>
 <!-- Model register end -->
 
-<!-- Modal Condiciones de uso -->
+<!----------------------------------------------- MODAL TERMS OF USE -------------------------------->
 <div class="modal fade" id="modalTerminoCondiciones" style="background-color: #EBEDEF ;" tabindex="-1" role="dialog"
   aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
