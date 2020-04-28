@@ -36,6 +36,7 @@ export class CategoriesComponent implements OnInit {
 
   getCategories() {
     this.categoriesService.getCategories().subscribe(result => {
+      console.log(this.categories);
       this.categories = result;
     });
   }
@@ -91,7 +92,7 @@ export class CategoriesComponent implements OnInit {
  * @param string 
  */
   validateTextLong(text: string): boolean {
-    return text.length > 3;
+    return text?.length > 3;
   }
 
 }
