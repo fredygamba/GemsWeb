@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/entities/User';
-import { element } from 'protractor';
 import { UsersService } from 'src/app/services/users/users.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -11,35 +10,64 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class MenuComponent {
 
-  public email: string = "";
-  public password: string = "";
-  public confPassword: string = "";
+  public errors = {
+    loginEmail: false,
+    loginPassword: false
+  };
+  public loginEmail: string;
+  public loginPassword: string;
+  public signInConfirmPassword: string;
+  public signInPassword: string;
+  public status = {
+    login: false
+  }
   public user: User;
 
   constructor(
-    public usersService: UsersService) {
-    this.user = { name: "", lastname: "", email: "", password: "" };
+    public usersService: UsersService,
+    private modalService: NgbModal) {
+    this.user = { name: null, lastname: null, email: null };
   }
+
   /**
-   * Metodo encargado de iniciar sesion
+   * Permite autenticar el inicio de sesión de un usuario.
+   * Utiliza un manejo de errores. Véase manageLoginErrors(any)
    */
-  login() {
-    if (this.validateEmail(this.email.trim()) && this.validateTextLong(this.password.trim())) {
-      var remember: boolean = (<HTMLInputElement>document.getElementById("checkRecId")).checked;
-      if (remember) {
-        this.usersService.saveStorageUser({ id: "1", name: "Yeisson", lastname: "Lopez", email: this.email, password: this.password });
-        document.getElementById("loginModal").click();
-      }
-    }
-    (!this.validateEmail(this.email)) ? window.alert("Correo Electronico Incorrecto") : "";
-    (!this.validateTextLong(this.password)) ? window.alert("Contraseña no valida") : "";
+  public login() {
+    this.status.login = true;
+    this.usersService.authenticateUser(this.loginEmail, this.loginPassword).then(res => {
+      console.log(res);
+      document.getElementById("loginModal").click();
+    }).catch(error => {
+      this.manageLoginErrors(error);
+    }).finally(() => {
+      this.status.login = false;
+    });
   }
+
   /**
    * Metodo encargado para cerrar sesión
    */
-  exitLogin() {
-    this.usersService.logOut();
+  logout() {
+    this.usersService.logout();
     document.getElementById("confSignOff").click();
+  }
+
+  /**
+   * Administrar los errores que se pueden producir al iniciar sesión.
+   * Los errores que se pueden encontrar son: 
+   * "auth/user-not-found" -> El correo electrónico no se encontró.
+   * "auth/wrong-password" -> La contraseña es invalida.
+   * @param error Error que se produce al iniciar sesión.
+   */
+  private manageLoginErrors(error: any) {
+    if (error.code == "auth/user-not-found") {
+      this.errors.loginEmail = true;
+    }
+    if (error.code == "auth/wrong-password") {
+      this.errors.loginPassword = true;
+    }
+    console.log(error);
   }
 
   /**
@@ -47,15 +75,15 @@ export class MenuComponent {
    */
   register() {
     if (this.validateRegister(this.user)) {
-      // this.usersService.registerUser(this.email, this.password).then(result => {
-      //   this.user.id = result.user.uid;
-      //   this.usersService.addUser(this.user).then(() => {
-      //     document.getElementById("registerModal").click();
-      //   });
-      // }).catch(error => {
-      //   alert("Ha ocurrido un error.");
-      //   console.log(error);
-      // });
+      this.usersService.registerUser(this.user.email, this.signInPassword).then(result => {
+        this.user.id = result.user.uid;
+        this.usersService.addUser(this.user).then(() => {
+          document.getElementById("signInModal").click();
+        });
+      }).catch(error => {
+        alert("Ha ocurrido un error.");
+        console.log(error);
+      });
     }
   }
 
@@ -90,10 +118,11 @@ export class MenuComponent {
    * @param user 
    */
   validateRegister(user: User): boolean {
-    if (user != undefined && user != null) {
-      return (this.validateLongCamposRegistro(user) && this.validateNameUserRegistre(user) && this.validateTermsOfUse() &&
-        this.validatePasswordsRegistre(user.password.trim(), this.confPassword.trim())) ? true : false;
-    }
+    // if (user != undefined && user != null) {
+    //   return (this.validateLongCamposRegistro(user) && this.validateNameUserRegistre(user) && this.validateTermsOfUse() &&
+    //     this.validatePasswordsRegistre(user.password.trim(), this.confirmPassword.trim())) ? true : false;
+    // }
+    return true;
   }
   /**
    * Metodo para validar Si se acepto termino de de las Condiciones de Uso del
@@ -127,14 +156,14 @@ export class MenuComponent {
    * Metodo que valida que todos los campos del formulario Registro Usuario tenga la logitud adecuada
    * @param user 
    */
-  validateLongCamposRegistro(user: User): boolean {
-    var aux: boolean = (this.validateTextLong(user.name.trim()) && this.validateTextLong(user.lastname.trim()) && this.validateEmail(user.email.trim()) && this.validateTextLong(user.password.trim()));
-    (!this.validateTextLong(user.name.trim())) ? window.alert("Longitud nombre debe ser minimo 5 caracteres") : "";
-    (!this.validateTextLong(user.lastname.trim())) ? window.alert("Longitud apellido debe ser minimo 5 caracteres") : "";
-    (!this.validateEmail(user.email.trim())) ? window.alert("Correo electronico invalido") : "";
-    (!this.validateTextLong(user.password.trim())) ? window.alert("Longitud de la Contraseña debe ser minimo 5 caracteres") : "";
+  // validateLongCamposRegistro(user: User): boolean {
+  //   var aux: boolean = (this.validateTextLong(user.name.trim()) && this.validateTextLong(user.lastname.trim()) && this.validateEmail(user.email.trim()) && this.validateTextLong(user.password.trim()));
+  //   (!this.validateTextLong(user.name.trim())) ? window.alert("Longitud nombre debe ser minimo 5 caracteres") : "";
+  //   (!this.validateTextLong(user.lastname.trim())) ? window.alert("Longitud apellido debe ser minimo 5 caracteres") : "";
+  //   (!this.validateEmail(user.email.trim())) ? window.alert("Correo electronico invalido") : "";
+  //   (!this.validateTextLong(user.password.trim())) ? window.alert("Longitud de la Contraseña debe ser minimo 5 caracteres") : "";
 
-    return aux;
-  }
+  //   return aux;
+  // }
 
 }

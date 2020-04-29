@@ -15,19 +15,32 @@ export class UsersService {
   private userCollection: AngularFirestoreCollection<User>;
 
   constructor(
-    private afAuth: AngularFireAuth,
+    private firebaseAuth: AngularFireAuth,
     private afs: AngularFirestore,
     private db: AngularFirestore) {
     this.userCollection = db.collection<User>('users');
-    afAuth.authState.subscribe(user => (console.log(user)));
   }
 
   addUser(user: User) {
     return this.userCollection.add(user);
   }
-  
+
+  /**
+   * Permite autenticar a un usuario con los 
+   * datos de correo electrónico y contraseña.
+   * @param email Correo electrónico
+   * @param password Contraseña
+   */
+  async authenticateUser(email: string, password: string) {
+    return this.firebaseAuth.auth.signInWithEmailAndPassword(email, password);
+  }
+
   editUser() { }
-  getUser() { }
+
+
+  getUser(id: string): any {
+  }
+
   getUsers() {
     return this.userCollection.snapshotChanges().pipe(map(
       actions => {
@@ -45,10 +58,12 @@ export class UsersService {
     this.user = JSON.parse(localStorage.getItem("user"));
   }
 
+
+
   /**
    * Metodo para terminar "sesión"
    */
-  logOut() {
+  logout() {
     this.user = null;
     localStorage.setItem("user", null);
   }
@@ -63,7 +78,7 @@ export class UsersService {
 
   public async registerUser(email: string, password: string) {
     try {
-      return await this.afAuth.auth.createUserWithEmailAndPassword(email, password);
+      return await this.firebaseAuth.auth.createUserWithEmailAndPassword(email, password);
     } catch (error) {
       console.log("Error on register", error);
     }
