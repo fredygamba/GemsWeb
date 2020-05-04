@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,6 +20,8 @@ import { environment } from '../environments/environment';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CategoryComponent } from './components/category/category.component';
 import { UsersComponent } from './pages/users/users.component';
+import { SignInComponent } from './components/sign-in/sign-in.component';
+import { LoginComponent } from './components/login/login.component';
 
 
 @NgModule({
@@ -32,7 +34,9 @@ import { UsersComponent } from './pages/users/users.component';
     SettingsComponent,
     CategoriesComponent,
     CategoryComponent,
-    UsersComponent
+    UsersComponent,
+    SignInComponent,
+    LoginComponent
   ],
   imports: [
     AngularFireAuthModule,
@@ -42,7 +46,8 @@ import { UsersComponent } from './pages/users/users.component';
     AppRoutingModule,
     BrowserModule,
     FormsModule,
-    NgbModule
+    NgbModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

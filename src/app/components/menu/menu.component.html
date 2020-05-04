@@ -29,20 +29,21 @@
       <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" style="background-color: #273746 ;"
           id="UserLogguer" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          {{ usersService.user?.name }}
+          {{ usersService.user?.firstName }}
         </button>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="UserLogguer">
           <a class="dropdown-item" routerLink="/settings">Mi Cuenta</a>
           <a class="dropdown-item" href="">Mis compras</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" data-toggle="modal" data-target="#confSignOff">Cerrar sesión</a>
+          <a class="dropdown-item" data-toggle="modal" data-target="#confSignOff" href="">Cerrar sesión</a>
         </div>
       </div>
     </div>
     <div id="login" class="contenedor-div" *ngIf="usersService.user == null">
-      <button type="button" class="btn btn-outline-light" data-toggle="modal" data-target="#loginModal">
+      <button class="btn btn-outline-light" data-toggle="modal" data-target="#loginModal" type="button">
         Iniciar sesión</button>
-      <button class="btn btn-link" data-toggle="modal" data-target="#signInModal" type="button">Registrarme</button>
+      <button class="btn btn-outline-light" data-toggle="modal" data-target="#signInModal"
+        type="button">Registrarme</button>
     </div>
   </div>
 </nav>
@@ -62,196 +63,16 @@
         ¿Estás seguro que deseas cerrar sesión?
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary" (click)="logout()">Cerrar sesión</button>
+        <button class="btn btn-secondary" data-dismiss="modal" type="button">Cancelar</button>
+        <button class="btn btn-primary" (click)="logout()" type="button">Cerrar sesión</button>
       </div>
     </div>
   </div>
 </div>
 <!-------------------------------------------- LOGOUT MODAL close ------------------------------------------>
 
-<!--------------------------------------------- LOGIN MODAL open ------------------------------------------->
-<div id="loginModal" class="modal fade" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
+<!-- LOGIN MODAL -->
+<app-login id="loginModal" class="modal fade" role="dialog" tabindex="-1"></app-login>
 
-      <!-- Header -->
-      <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalCenterTitle">Iniciar sesión</h4>
-        <button class="close" data-dismiss="modal" type="button">
-          <span>&times;</span>
-        </button>
-      </div>
-
-      <!-- Body -->
-      <div class="modal-body">
-
-        <!-- Email -->
-        <div class="form-group">
-          <label>Correo electrónico</label>
-          <input class="form-control" [class.is-invalid]="errors.loginEmail" (keyup)="errors.loginEmail = false"
-            [(ngModel)]="loginEmail" placeholder="Correo electrónico" type="email">
-          <small class="form-text text-muted invalid-feedback" *ngIf="errors.loginEmail">
-            No se encontró el correo electrónico.
-          </small>
-        </div>
-
-        <!-- Password -->
-        <div class="form-group">
-          <label>Contraseña</label>
-          <input class="form-control" [class.is-invalid]="errors.loginPassword" (keyup)="errors.loginPassword = false"
-            [(ngModel)]="loginPassword" placeholder="Contraseña" type="password">
-          <small class="form-text text-muted invalid-feedback" *ngIf="errors.loginPassword">
-            Contraseña incorrecta.
-          </small>
-        </div>
-
-        <!-- Options -->
-        <div class="container">
-          <div class="row">
-            <div class="col-8">
-
-              <!-- Remember me -->
-              <div class="custom-control custom-checkbox mr-sm-2">
-                <input id="checkRememberMe" class="custom-control-input" type="checkbox">
-                <label class="custom-control-label" for="checkRememberMe">Recuérdame</label>
-              </div>
-
-            </div>
-            <div class="col-4">
-              <!-- Forget my data -->
-              <a href="">Olvide mis dados.</a>
-            </div>
-          </div>
-        </div>
-
-      </div>
-      <!-- Body close -->
-
-      <!-- Footer -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary" [class.disabled]="status.login" (click)="login()">
-          <span class="spinner-border spinner-border-sm" *ngIf="status.login"></span>
-          Iniciar sesión
-        </button>
-      </div>
-
-    </div>
-  </div>
-</div>
-<!--------------------------------------------- LOGIN MODAL close ------------------------------------------->
-
-<!--------------------------------------------- SIGNIN MODAL open ------------------------------------------->
-<div id="signInModal" class="modal fade" role="dialog" tabindex="-1">
-  <div class="modal-dialog modal-dialog-scrollable modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-
-      <!-- Header -->
-      <div class="modal-header">
-        <h4 class="modal-title">Registrar usuario</h4>
-        <button type="button" class="close" data-dismiss="modal">
-          <span>&times;</span>
-        </button>
-      </div>
-
-      <!-- Body -->
-      <div class="modal-body">
-
-        <!-- Firts name -->
-        <div class="form-group">
-          <label>Nombre</label>
-          <input class="form-control" [(ngModel)]="user.name" placeholder="Nombre" type="email">
-          <!-- <small id="smallNameUserReg" class="form-text text-muted"
-            *ngIf="!validateTextLong(user.name?.trim())">
-            <p style="color: red;">*El nombre debe tener mas de 3 caracteres</p>
-          </small> -->
-        </div>
-
-        <!-- Last name -->
-        <div class="form-group">
-          <label>Apellido</label>
-          <input class="form-control" [(ngModel)]="user.lastname" placeholder="Apellido" type="email">
-          <!-- <small id="smallLastameUserReg" class="form-text text-muted"
-            *ngIf="!validateTextLong(user.lastname?.trim())">
-            <p style="color: red;">*El apellido debe tener mas de 3 caracteres</p>
-          </small> -->
-        </div>
-
-        <!-- Email -->
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" class="form-control" [(ngModel)]="user.email" placeholder="Correo electrónico">
-          <!-- <small id="smallEmailReg" class="form-text text-muted"
-            *ngIf="(!validateEmail(user.email?.trim())) && !(validateTextLong(user.email?.trim()))">
-            <p style="color: red;">*Email no valido</p>
-          </small> -->
-        </div>
-
-        <!-- Password -->
-        <div class="form-group">
-          <label>Contraseña</label>
-          <input class="form-control" [(ngModel)]="signInPassword" placeholder="Contraseña" type="password">
-          <!-- <small id="smallPassReg" class="form-text text-muted">
-            <p style="color: red;">*Contraseña debe tener minimo 5 caracteres</p>
-          </small> -->
-        </div>
-
-        <!-- Confirm password -->
-        <div class="form-group">
-          <label>Confirmar contraseña</label>
-          <input class="form-control" [(ngModel)]="signInConfirmPassword" placeholder="Confirmar contraseña"
-            type="password">
-          <!-- <small id="smallPassReg" class="form-text text-muted"
-            *ngIf="!confirmPassword?.includes(user.password) || confirmPassword?.length != signInPassword.length">
-            <p style="color: red;">*La contraseña NO es la misma</p>
-          </small> -->
-        </div>
-
-        <!-- Conditions -->
-        <div class="custom-control custom-checkbox mr-sm-2">
-          <input id="checkConditions" class="custom-control-input" type="checkbox">
-          <label class="custom-control-label" for="checkConditions">Acepto condiciones de uso</label>
-          <a data-target="#modalTerminoCondiciones" data-toggle="modal"> <i class="fas fa-external-link-alt"></i>
-          </a>
-        </div>
-
-      </div>
-      <!-- Body close -->
-
-      <!-- Footer -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary" (click)="register()">Registrarme</button>
-      </div>
-
-    </div>
-  </div>
-</div>
-<!--------------------------------------------- SIGNIN MODAL close ------------------------------------------->
-
-<!----------------------------------------------- MODAL TERMS OF USE -------------------------------->
-<div class="modal fade" id="modalTerminoCondiciones" style="background-color: #EBEDEF ;" tabindex="-1" role="dialog"
-  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header" style="background-color: #EAECEE;">
-        <h5 class="modal-title" id="exampleModalCenterTitle">TERMINOS DE CONDICIONES DE USO</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>Al acceder, consultar o utilizar el Sitio Web, los Usuarios (“Vd.”, “usted”, “Usuario”, o “usuario”)
-          aceptan cumplir los términos y condiciones
-          establecidos en este Contrato. En caso de que usted no acepte quedar vinculado por los presentes
-          términos y condiciones, no podrá acceder a, ni
-          utilizar, el Sitio Web.</p>
-      </div>
-      <div class="modal-footer" style="background-color: #EAECEE;">
-        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Acepto</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Modal Condiciones de uso end -->
+<!-- SIGNIN MODAL -->
+<app-sign-in id="signInModal" class="modal fade" role="dialog" tabindex="-1"></app-sign-in>

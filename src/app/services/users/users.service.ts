@@ -12,37 +12,28 @@ export class UsersService {
 
   public user: User;
   private users: Observable<User[]>;
-  private userCollection: AngularFirestoreCollection<User>;
+  private usersCollection: AngularFirestoreCollection<User>;
 
   constructor(
     private firebaseAuth: AngularFireAuth,
-    private afs: AngularFirestore,
-    private db: AngularFirestore) {
-    this.userCollection = db.collection<User>('users');
+    private firestore: AngularFirestore) {
+    this.usersCollection = firestore.collection<User>('users');
   }
 
   addUser(user: User) {
-    return this.userCollection.add(user);
-  }
-
-  /**
-   * Permite autenticar a un usuario con los 
-   * datos de correo electrónico y contraseña.
-   * @param email Correo electrónico
-   * @param password Contraseña
-   */
-  async authenticateUser(email: string, password: string) {
-    return this.firebaseAuth.auth.signInWithEmailAndPassword(email, password);
+    var outUser: User = { firstName: user.firstName, lastName: user.lastName, email: user.email };
+    return this.firestore.collection('users').doc(user.id).set(outUser);
   }
 
   editUser() { }
 
 
   getUser(id: string): any {
+    return this.usersCollection.doc<User>(id).valueChanges();
   }
 
   getUsers() {
-    return this.userCollection.snapshotChanges().pipe(map(
+    return this.usersCollection.snapshotChanges().pipe(map(
       actions => {
         return actions.map(a => {
           const data = a.payload.doc.data();
@@ -58,7 +49,28 @@ export class UsersService {
     this.user = JSON.parse(localStorage.getItem("user"));
   }
 
-
+  /**
+   * 
+   * @param email 
+   * @param password 
+   * @returns Promise<User>
+   */
+  public login(email: string, password: string): Promise<User> {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        this.firebaseAuth.auth.signInWithEmailAndPassword(email, password).then(fbUser => {
+          this.getUser(fbUser.user.uid).subscribe(user => {
+            this.user = user;
+            resolve(this.user);
+          }, error => {
+            reject(error)
+          });
+        }).catch(authError => {
+          reject(authError);
+        });
+      });
+    });
+  }
 
   /**
    * Metodo para terminar "sesión"
@@ -66,22 +78,17 @@ export class UsersService {
   logout() {
     this.user = null;
     localStorage.setItem("user", null);
+    this.firebaseAuth.auth.signOut();
   }
 
   removeUser() { }
 
-  saveStorageUser(user: User) {
-    this.user = user;
-    /**Asignó a la variable una clave/valor */
-    localStorage.setItem("user", JSON.stringify(user));
+  saveUserInStorage() {
+    localStorage.setItem("user", JSON.stringify(this.user));
   }
 
   public async registerUser(email: string, password: string) {
-    try {
-      return await this.firebaseAuth.auth.createUserWithEmailAndPassword(email, password);
-    } catch (error) {
-      console.log("Error on register", error);
-    }
+    return await this.firebaseAuth.auth.createUserWithEmailAndPassword(email, password);
   }
 
 }

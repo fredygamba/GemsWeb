@@ -1,16 +1,11 @@
 <div class="header">
-    <div class="container">
-        <div class="row">
-            <div class="col-">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#categoryModal">
-                    + Agregar categoría</button>
-            </div>
-            <div class="col-6"></div>
-            <div class="col-">
-                <input class="form-control mr-sm-1" (keyup)="filterCategories()" [(ngModel)]="searchText" type="search" placeholder="Buscar..."
-                    aria-label="Search">
-            </div>
+    <div class="row">
+        <div class=" col-9">
+            <button class="btn btn-primary" data-target="#categoryModal" data-toggle="modal" type="button"><i
+                    class="fas fa-paper-plane"></i>+ Agregar categoría</button>
         </div>
+        <input class="form-control col-3" (keyup)="filterCategories()" [(ngModel)]="searchText" placeholder="Buscar..."
+            type="search">
     </div>
 </div>
 

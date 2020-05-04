@@ -1,0 +1,150 @@
+<div class="modal-dialog modal-dialog-scrollable modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+
+        <!-- Header -->
+        <div class="modal-header">
+            <h4 class="modal-title">Registrar usuario</h4>
+            <button type="button" class="close" data-dismiss="modal">
+                <span>&times;</span>
+            </button>
+        </div>
+
+        <form [formGroup]="formSignIn" (ngSubmit)="register()">
+            <!-- Body -->
+            <div class="modal-body">
+
+                <!-- Firts name -->
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <input class="form-control" formControlName="firstName" (keyup)="errors.signInFirstName = false"
+                        [ngClass]="firstName.dirty ? (firstName.valid ? 'is-valid' : 'is-invalid') : ''"
+                        placeholder="Nombre del usuario" type="text">
+                    <small class="form-text text-muted invalid-feedback" *ngIf="errors.signInFirstName">
+                        Debes ingresar un nombre con mínimo 3 letras.
+                    </small>
+                </div>
+
+                <!-- Last name -->
+                <div class="form-group">
+                    <label>Apellido</label>
+                    <input class="form-control" formControlName="lastName" (keyup)="errors.signInLastName = false"
+                        [ngClass]="lastName.dirty ? (lastName.valid ? 'is-valid' : 'is-invalid') : ''"
+                        placeholder="Apellido del usuario" type="text">
+                    <small class="form-text text-muted invalid-feedback" *ngIf="errors.signInLastName">
+                        Debes ingresar un apellido con mínimo 3 letras.
+                    </small>
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label>Correo electrónico</label>
+                    <input class="form-control" formControlName="email"
+                        (keyup)="errors.signInEmail = false; errors.signInEmailAlreadyInUse = false"
+                        [ngClass]="!errors.signInEmailAlreadyInUse ? (email.dirty ? (email.valid ? 'is-valid' : 'is-invalid') : '') : 'is-invalid'"
+                        placeholder="Correo electrónico" spellcheck="false" type="email">
+                    <small class="form-text text-muted invalid-feedback" *ngIf="errors.signInEmail">
+                        Debes ingresar un correo electrónico.
+                    </small>
+                    <small class="form-text text-muted" *ngIf="errors.signInEmailAlreadyInUse">
+                        Ya se encuentra un usuario registrado con este correo electrónico.
+                    </small>
+                </div>
+
+                <!-- Password -->
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <div class="input-group">
+                        <input class="form-control" formControlName="password" (keyup)="errors.signInPassword = false"
+                            [ngClass]="password.dirty ? (password.valid ? 'is-valid' : 'is-invalid') : ''"
+                            placeholder="Contraseña" [type]="status.signInPasswordShow ? 'text' : 'password'">
+                        <div class="input-group-append">
+                            <button class="form-control btn"
+                                (click)="status.signInPasswordShow = !status.signInPasswordShow"
+                                [ngClass]="status.signInPasswordShow ? 'btn-secondary' : 'btn-outline-secondary'"
+                                tabindex="-1" type="button">
+                                <i [ngClass]="status.signInPasswordShow ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <small class="form-text text-muted" *ngIf="errors.signInPassword">
+                        Debes ingresar una contraseña.
+                    </small>
+                </div>
+
+                <!-- Confirm password -->
+                <div class="form-group">
+                    <label>Confirmar contraseña</label>
+                    <div class="input-group">
+                        <input class="form-control" (keyup)="errors.signInConfirmPassword = false"
+                            name="signInConfirmPassword" [(ngModel)]="signInConfirmPassword"
+                            [ngModelOptions]="{standalone: true}"
+                            [ngClass]="signInConfirmPassword != undefined ? (validateConfirmPassword() ? 'is-valid' : 'is-invalid') : ''"
+                            placeholder="Confirmar contraseña"
+                            [type]="status.signInConfirmPasswordShow ? 'text' : 'password'">
+                        <div class="input-group-append">
+                            <button class="form-control btn"
+                                (click)="status.signInConfirmPasswordShow = !status.signInConfirmPasswordShow"
+                                [ngClass]="status.signInConfirmPasswordShow ? 'btn-secondary' : 'btn-outline-secondary'"
+                                tabindex="-1" type="button">
+                                <i [ngClass]="status.signInConfirmPasswordShow ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <small class="form-text text-muted" *ngIf="errors.signInConfirmPassword">
+                        La contraseña no coincide.
+                    </small>
+                </div>
+
+                <!-- Conditions -->
+                <div class="custom-control custom-checkbox mr-sm-2">
+                    <input id="checkConditions" class="custom-control-input" (change)="errors.signInConditions = false"
+                        [ngClass]="errors.signInConditions ? 'is-invalid' : ''" type="checkbox">
+                    <label class="custom-control-label" for="checkConditions">Acepto condiciones de uso</label>
+                    <a data-target="#modalTerminoCondiciones" data-toggle="modal">
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                    <small class="form-text text-muted invalid-feedback" *ngIf="errors.signInConditions">
+                        Debes aceptar las condiciones de uso.
+                    </small>
+                </div>
+
+            </div>
+            <!-- Body close -->
+
+            <!-- Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" [class.disabled]="status.signing" type="submit">
+                    <span class="spinner-border spinner-border-sm" *ngIf="status.signing"></span>
+                    Registrarme
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!----------------------------------------- MODAL TERMS OF USE open -------------------------------->
+<div class="modal fade" id="modalTerminoCondiciones" style="background-color: #EBEDEF ;" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #EAECEE;">
+                <h5 class="modal-title" id="exampleModalCenterTitle">TERMINOS DE CONDICIONES DE USO</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Al acceder, consultar o utilizar el Sitio Web, los Usuarios (“Vd.”, “usted”, “Usuario”, o “usuario”)
+                    aceptan cumplir los términos y condiciones
+                    establecidos en este Contrato. En caso de que usted no acepte quedar vinculado por los presentes
+                    términos y condiciones, no podrá acceder a, ni
+                    utilizar, el Sitio Web.</p>
+            </div>
+            <div class="modal-footer" style="background-color: #EAECEE;">
+                <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Acepto</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--------------------------------------- MODAL TERMS OF USE close -------------------------------->

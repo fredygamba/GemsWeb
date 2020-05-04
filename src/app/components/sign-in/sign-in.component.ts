@@ -1,35 +1,27 @@
 import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormGroup, FormControl, Validators } from '@angular/forms';
 import { User } from 'src/app/entities/User';
 import { UsersService } from 'src/app/services/users/users.service';
-import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
-import { Strings } from 'src/app/utilities/Strings';
 
 @Component({
-  selector: 'app-menu',
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.scss']
+  selector: 'app-sign-in',
+  templateUrl: './sign-in.component.html',
+  styleUrls: ['./sign-in.component.scss']
 })
-export class MenuComponent {
+export class SignInComponent {
 
   public errors = {
-    loginArgument: false, loginEmail: false, loginPassword: false,
     signInFirstName: false, signInLastName: false, signInEmail: false,
     signInEmailAlreadyInUse: false, signInPassword: false,
     signInConfirmPassword: false, signInConditions: false
   };
-  public loginEmail: string;
-  public loginPassword: string;
-  public signInConfirmPassword: string;
-  public signInPassword: string;
-  public status = {
-    loggingIn: false, signing: false,
-    signInPasswordShow: false, signInConfirmPasswordShow: false
-  };
-  public user: User;
   public formSignIn: FormGroup;
+  public signInConfirmPassword: string;
+  public status = {
+    signing: false, signInPasswordShow: false, signInConfirmPasswordShow: false
+  };
 
-  constructor(public usersService: UsersService) {
-    this.user = { firstName: null, lastName: null, email: null };
+  constructor(private usersService: UsersService) {
     this.buildFormSingIn();
   }
 
@@ -50,29 +42,6 @@ export class MenuComponent {
     };
   }
 
-  /**
-   * Permite autenticar el inicio de sesión de un usuario. Si los
-   * datos ingresados corresponden a los del usuario, se procede a
-   * cargar los datos del usuario.
-   * Utiliza un manejo de errores (Véase manageLoginErrors(any)).
-   */
-  public login() {
-    if (this.validateLogin()) {
-      // this.status.loggingIn = true;
-      // this.usersService.authenticateUser(this.loginEmail, this.loginPassword).then(result => {
-      //   this.usersService.getUser(result.user.uid).subscribe(res => {
-      //     console.log(res);
-      //   });
-      // }).catch(error => {
-      //   this.manageLoginErrors(error);
-      // }).finally(() => {
-      //   this.status.loggingIn = false;
-      // });
-    } else {
-      console.log("Invalido")
-    }
-  }
-
   get email(): AbstractControl {
     return this.formSignIn.get("email");
   }
@@ -87,33 +56,6 @@ export class MenuComponent {
 
   get password(): AbstractControl {
     return this.formSignIn.get("password");
-  }
-
-  /**
-   * Metodo encargado para cerrar sesión
-   */
-  public logout() {
-    this.usersService.logout();
-    document.getElementById("confSignOff").click();
-  }
-
-  /**
-   * Administrar los errores que se pueden producir al iniciar sesión.
-   * Estos errores se utilizan para alternar un objeto "bandera" (@var errors),
-   * que es utilizado por la vista para mostrar advertencias de los errores.
-   * Los errores que se pueden encontrar son: 
-   * "auth/argument-error" -> Los datos ingresados no son válidos.
-   * "auth/user-not-found" -> El correo electrónico no se encontró.
-   * "auth/wrong-password" -> La contraseña es invalida.
-   * @param error Error que se produce al iniciar sesión.
-   */
-  private manageLoginErrors(error: any) {
-    switch (error.code) {
-      case "auth/argument-error": this.errors.loginArgument = true; console.log(error); break;
-      case "auth/user-not-found": this.errors.loginEmail = true; break;
-      case "auth/wrong-password": this.errors.loginPassword = true; break;
-      default: alert("Se ha producido un error desconocido. L1"); console.log(error); break;
-    }
   }
 
   private managerRegisterErrors(error: any) {
@@ -133,21 +75,24 @@ export class MenuComponent {
     if (this.validateRegister()) {
       this.status.signing = true;
       var user: User = this.buildUser();
-      this.usersService.registerUser(user.email, this.formSignIn.get("password").value).then(result => {
+      var password: string = this.formSignIn.get("password").value;
+      this.usersService.registerUser(user.email, password).then(result => {
         user.id = result.user.uid;
         this.usersService.addUser(user).then(() => {
-          document.getElementById("signInModal").click();
+          this.usersService.login(user.email, password).then(() => {
+            document.getElementById("signInModal").click();
+            this.status.signing = false;
+          });
+        }).catch(error => {
           this.status.signing = false;
+          alert("Error al agregar al usuario.");
+          console.log(error);
         });
       }).catch(error => {
-        this.status.signing = false;
         this.managerRegisterErrors(error);
-      })
+        this.status.signing = false;
+      });
     }
-  }
-
-  validateLogin(): boolean {
-    return true;
   }
 
   /**
@@ -170,7 +115,6 @@ export class MenuComponent {
     var lastName: AbstractControl = this.formSignIn.get('lastName');
     var email: AbstractControl = this.formSignIn.get('email');
     var password: AbstractControl = this.formSignIn.get('password');
-    var confirmPassword: AbstractControl = this.formSignIn.get('confirmPassword');
     firstName.patchValue(firstName.value.replace(/\s+/g, ' ').trim());
     lastName.patchValue(lastName.value.replace(/\s+/g, ' ').trim());
     email.patchValue(email.value.replace(/\s+/g, ' ').trim());
