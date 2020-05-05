@@ -3,29 +3,28 @@
         <div class=" col-9">
             <button class="btn btn-primary" type="button"><i class="fas fa-paper-plane"></i> Enviar invitación</button>
         </div>
-        <input class="form-control col-3" type="search" placeholder="Buscar...">
+        <input class="form-control col-3" (keyup)="filterUser()" [(ngModel)]="searchUser" type="search" placeholder="Buscar...">
     </div>
 </div>
 <div class="users-container">
     <table class="table table-striped">
         <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Country</th>
-                <th scope="col">Area</th>
-                <th scope="col">Population</th>
+                <th scope="col" *ngFor="let atribute of listAtributes">{{atribute}}</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let country of countries; index as i">
-                <th scope="row">{{ i + 1 }}</th>
-                <td>
-                    <img [src]="'https://upload.wikimedia.org/wikipedia/commons/' + country.flag" class="mr-2"
-                        style="width: 20px">
-                    {{ country.name }}
+            <tr *ngFor="let user of filteredUsers">
+                <td scope="row">{{user.firstName}}</td>
+                <td scope="row">{{user.lastName}}</td>
+                <td scope="row">{{user.email}}</td>
+                <td scope="row">Sin definir</td>
+                <td scope="row">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <button class="btn btn-outline-primary" type="button"><i class="fas fa-pen"></i></button>
+                        <button class="btn btn-outline-danger" type="button"><i class="fas fa-trash"></i></button>
+                    </div>
                 </td>
-                <td>{{ country.area | number }}</td>
-                <td>{{ country.population | number }}</td>
             </tr>
         </tbody>
     </table>

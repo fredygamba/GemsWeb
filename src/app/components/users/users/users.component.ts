@@ -1,39 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
-interface Country {
-  name: string;
-  flag: string;
-  area: number;
-  population: number;
-}
-
-const COUNTRIES: Country[] = [
-  {
-    name: 'Russia',
-    flag: 'f/f3/Flag_of_Russia.svg',
-    area: 17075200,
-    population: 146989754
-  },
-  {
-    name: 'Canada',
-    flag: 'c/cf/Flag_of_Canada.svg',
-    area: 9976140,
-    population: 36624199
-  },
-  {
-    name: 'United States',
-    flag: 'a/a4/Flag_of_the_United_States.svg',
-    area: 9629091,
-    population: 324459463
-  },
-  {
-    name: 'China',
-    flag: 'f/fa/Flag_of_the_People%27s_Republic_of_China.svg',
-    area: 9596960,
-    population: 1409517397
-  }
-];
-
+import { UsersService } from 'src/app/services/users/users.service';
+import { User } from 'src/app/entities/User';
 
 @Component({
   selector: 'app-users',
@@ -42,11 +9,49 @@ const COUNTRIES: Country[] = [
 })
 export class UsersComponent implements OnInit {
 
-  countries = COUNTRIES;
+  public listAtributes: string[];
+  public users: User[];
+  public filteredUsers: User[];
+  public searchUser: string;
   
-  constructor() { }
+  constructor(private userService: UsersService) {
+    this.listAtributes= ["Nombres", "Apellidos","Correo electrónico","Tipo de Usuario","Más opciones"];
+    this.users= [];
+    this.filteredUsers= [];
+   }
+
+   filterUser() {
+    this.filteredUsers= [];
+    if (this.searchUser != undefined) {
+      for (let i = 0; i < this.users.length; i++) {
+        var userAux = this.users[i];
+        if (this.searchTexttoUser(this.searchUser, userAux)) {
+          this.filteredUsers.push(userAux);
+        }
+      }
+      return this.filteredUsers;
+    }else {
+      return this.users;
+    }
+   }
+
+   getUsers() {
+      this.userService.getUsers().subscribe(result => {
+        this.filteredUsers = result;
+        this.users= result;
+      } );
+   }
 
   ngOnInit(): void {
+    this.getUsers();
+  }
+
+  searchTexttoUser(searchText: string, user: User):boolean {
+    if (user.id.toLowerCase().includes(searchText.toLowerCase()) || user.firstName.toLowerCase().includes(searchText.toLowerCase()) ||
+       user.lastName.toLowerCase().includes(searchText.toLowerCase()) || user.email.toLowerCase().includes(searchText.toLowerCase())) {
+      return true;
+    }
+    return false;
   }
 
 }
