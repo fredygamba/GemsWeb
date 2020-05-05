@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Category } from 'src/app/entities/Category';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
-import { NgModel } from '@angular/forms';
+import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'app-categories',
@@ -11,31 +11,42 @@ import { NgModel } from '@angular/forms';
 export class CategoriesComponent implements OnInit {
 
   public category: Category;
+  public errorsNewCategories = {newCategory: false};
   public categories: Category[];
   public filteredCategories: Category[];
+  public formCategories: FormGroup;
   public searchText: string;
 
   constructor(private categoriesService: CategoriesService) {
     this.category = { name: null };
     this.categories = [];
     this.filteredCategories = [];
-  }
-
-  func(){
-    console.log("Hola");
+    this.buildFormCategory();
   }
 
   /**
    * Metodo para agregar una nueva categoria
    */
-  addCategory() {
+  addCategory(newCategory: Category) {
     // (this.validateCategory(this.category))?this.categories.push(this.category):window.alert("Nombre no valido, la longitud debe ser mayor a 3 caracteres");
-    this.categoriesService.addCategory(this.category).then(res => {
+    this.categoriesService.addCategory(newCategory).then(res => {
       document.getElementById("categoryModal").click();
     }).catch(error => {
       alert("Se ha generado un error.");
       console.log(error);
     });
+  }
+
+  private buildFormCategory(){
+    this.formCategories = new FormGroup({
+      nameFormCategory: new FormControl('',[Validators.required, Validators.minLength(3)])
+    });
+  }
+
+  private buildCategory(): Category{
+    return {
+      name : this.formCategories.get("nameFormCategory").value
+    }
   }
 
   public contains(category: Category, text: string) {
@@ -67,6 +78,10 @@ export class CategoriesComponent implements OnInit {
     
   }
 
+  get formCategory(): AbstractControl {
+    return this.formCategories.get("nameFormCategory");
+  }
+
   getCategories() {
     this.categoriesService.getCategories().subscribe(result => {
       this.categories = result;
@@ -81,14 +96,16 @@ export class CategoriesComponent implements OnInit {
    * Metodo para almacenar/guardar cambios de una categoria
    * @param categoryId 
    */
+
   save(categoryId: string) {
-    // Validar categoría
-    if (this.validateCategory(this.category)) {
+    if (this.validateAddCategory()) {
       if (categoryId == null) {
-        this.addCategory();
-      } else {
-        this.editCategory(categoryId);
+        var category = this.buildCategory();
+        this.addCategory(category);
       }
+    }else{
+      this.editCategory(categoryId);
+      console.log("Entro al else");
     }
   }
 
@@ -99,6 +116,20 @@ export class CategoriesComponent implements OnInit {
         .catch(error => { alert("Ha ocurrido un error al eliminar la categoría."); });
     }
   }
+
+  validateAddCategory(): boolean{
+    var formCategory: AbstractControl = this.formCategories.get("nameFormCategory");
+    formCategory.patchValue(formCategory.value.replace(/\s+/g, ' ').trim());
+    if (!formCategory.valid) {
+      this.errorsNewCategories.newCategory = true;
+      this.formCategory.markAsDirty();
+      //return true;
+    }else {
+      return true;
+    }
+    return false;
+  }
+
   /**
    * Metodo para validar una categoria
    * @param category 

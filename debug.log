@@ -2,3 +2,5 @@
 [0424/153332.855:ERROR:http_transport_win.cc(276)] WinHttpSendRequest: La operación se completó correctamente. (0x0)
 [0424/163456.238:ERROR:process_info.cc(359)] UncheckedAllocate
 [0424/163507.869:ERROR:process_info.cc(359)] UncheckedAllocate
+[0504/184921.740:ERROR:process_info.cc(359)] UncheckedAllocate
+[0504/184921.740:ERROR:process_info.cc(359)] UncheckedAllocate

@@ -30,17 +30,17 @@
                 </button>
             </div>
             <div class="modal-body">
-                <!-- FORM MATEGORIES INIT -->
-                <!-- <form> -->
-                <div class="form-group">
-                    <label for="formGroupExampleInput">Nombre</label>
-                    <input id="formGroupExampleInput" class="form-control" type="text"
-                        placeholder="Nombre de la categoría" [(ngModel)]="category.name">
-                    <small *ngIf="!validateTextLong(category.name)" id="smallNameUserReg" class="form-text text-muted">
-                        <p style="color: red;">*El nombre de la categoría debe tener mas de 3 caracteres</p>
-                    </small>
-                </div>
-                <!-- </form>     -->
+                <!-- FORM MATEGORIES INIT  (ngSubmit)="save(null)"-->
+                <form [formGroup]="formCategories">
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input class="form-control" formControlName="nameFormCategory" (keyup)="errorsNewCategories.newCategory = false"
+                            type="text" placeholder="Nombre de la categoría">
+                        <small class="form-text text-muted invalid-feedback" *ngIf="true">
+                            Hola
+                        </small>
+                    </div>
+                </form>
                 <!-- END FORM CATEGORIES -->
             </div>
             <div class="modal-footer">
