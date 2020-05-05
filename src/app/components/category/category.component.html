@@ -3,7 +3,7 @@
         <h5 class="card-title">{{ category.name }}</h5>
         <p class="card-text">Unidades: 15<br>Compra prom.: 4.5 unid.</p>
         <div class="btn-group" role="group" aria-label="Basic example">
-            <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#modalEditCategory">
+            <button class="btn btn-primary" (click)="editCategory2(modalEditCategory)" type="button">
                 <i class="fas fa-pen"></i>Editar</button>
             <button class="btn btn-danger" type="button" (click)="removeCategory(category.id)">
                 <i class="fas fa-trash"></i></button>
@@ -11,7 +11,27 @@
     </div>
 </div>
 
-<div class="modal fade" id="modalEditCategory" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<ng-template #modalEditCategory let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalCenterTitle">Editar</h5>
+            <button type="button" class="close" data-dismiss="modal" tabindex="-1">
+                <span>&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <input #name class="form-control" [(ngModel)]="category.name" placeholder="Nombre de la categoría"
+                type="text">
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="editCategory()">Guardar
+                cambios</button>
+        </div>
+    </div>
+</ng-template>
+
+<!-- <div class="modal fade" id="modalEditCategory" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -24,7 +44,6 @@
                 <div class="modal-body">
                     <div>
                         <label>Nombre categoría</label>
-                        <!-- formControlName="name" -->
                         <input class="form-control" formControlName="name" value={{category.name}} placeholder="Nombre de la categoría" type="text">{{category.name}}
                         <small class="form-text text-muted invalid-feedback" *ngIf="">
                             Debes ingresar una categoria con mínimo 3 letras.
@@ -38,4 +57,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->

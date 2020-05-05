@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Category } from 'src/app/entities/Category';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
 import { AbstractControl, FormGroup, FormControl, Validators } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-category',
@@ -13,13 +14,15 @@ export class CategoryComponent {
   public formCategory: FormGroup;
   @Input()
   public category: Category;
-  public newNameCategory: string="";
+  public newNameCategory: string = "";
 
-  constructor(private categoriesService: CategoriesService) {
+  constructor(
+    private categoriesService: CategoriesService,
+    private modalService: NgbModal) {
     this.buildFormCategory();
-   }
+  }
 
-   private buildFormCategory() {
+  private buildFormCategory() {
     this.formCategory = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.minLength(3)])
     });
@@ -39,10 +42,14 @@ export class CategoryComponent {
   editCategory() {
     var editNewCategory: Category = this.builCategory();
     if (confirm("¿Deséa editar esta categoría?")) {
-      this.categoriesService.editCategory(this.category.id, editNewCategory)
-       .then(() =>{console.log("Editado con éxito");})
-       .catch(error => {alert("Ha ocurrido un error al editar la categoría."); });
+      this.categoriesService.editCategory(this.category.id, this.category)
+        .then(() => { console.log("Editado con éxito"); })
+        .catch(error => { alert("Ha ocurrido un error al editar la categoría."); });
     }
+  }
+
+  editCategory2(content) {
+    this.modalService.open(content, { centered: true });
   }
 
   removeCategory(categoryId: string) {
