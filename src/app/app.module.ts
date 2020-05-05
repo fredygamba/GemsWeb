@@ -5,11 +5,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MenuComponent } from './components/menu/menu.component';
-import { ProfileComponent } from './pages/profile/profile.component';
+import { ProfileComponent } from './components/users/profile/profile.component';
 import { HomeComponent } from './pages/home/home.component';
 import { CatalogueComponent } from './pages/catalogue/catalogue.component';
 import { SettingsComponent } from './pages/settings/settings.component';
-import { CategoriesComponent } from './pages/categories/categories.component';
+import { CategoriesComponent } from './components/categories/categories/categories.component';
 
 // Firebase
 import { AngularFireModule } from 'angularfire2';
@@ -18,11 +18,10 @@ import { AngularFireStorageModule } from 'angularfire2/storage';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { environment } from '../environments/environment';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { CategoryComponent } from './components/category/category.component';
-import { UsersComponent } from './pages/users/users.component';
-import { SignInComponent } from './components/sign-in/sign-in.component';
-import { LoginComponent } from './components/login/login.component';
-
+import { CategoryComponent } from './components/categories/category/category.component';
+import { UsersComponent } from './components/users/users/users.component';
+import { SignInComponent } from './components/users/sign-in/sign-in.component';
+import { LoginComponent } from './components/users/login/login.component';
 
 @NgModule({
   declarations: [
