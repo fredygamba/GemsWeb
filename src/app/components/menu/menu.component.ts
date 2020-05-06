@@ -3,13 +3,15 @@ import { User } from 'src/app/entities/User';
 import { UsersService } from 'src/app/services/users/users.service';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { Strings } from 'src/app/utilities/Strings';
+import { CategoriesService } from 'src/app/services/categories/categories.service';
+import { Category } from 'src/app/entities/Category';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss']
 })
-export class MenuComponent {
+export class MenuComponent implements OnInit {
 
   public errors = {
     loginArgument: false, loginEmail: false, loginPassword: false,
@@ -17,6 +19,7 @@ export class MenuComponent {
     signInEmailAlreadyInUse: false, signInPassword: false,
     signInConfirmPassword: false, signInConditions: false
   };
+  public listCategories: Category[];
   public loginEmail: string;
   public loginPassword: string;
   public signInConfirmPassword: string;
@@ -28,7 +31,11 @@ export class MenuComponent {
   public user: User;
   public formSignIn: FormGroup;
 
-  constructor(public usersService: UsersService) {
+  constructor(
+    public usersService: UsersService, 
+    private categoriesService: CategoriesService) {
+
+    this.listCategories = [];
     this.user = { firstName: null, lastName: null, email: null };
     this.buildFormSingIn();
   }
@@ -48,6 +55,12 @@ export class MenuComponent {
       lastName: this.formSignIn.get("lastName").value,
       email: this.formSignIn.get("email").value
     };
+  }
+
+  getCategories(){
+    this.categoriesService.getCategories().subscribe(result => {
+      this.listCategories =result;
+    });
   }
 
   /**
@@ -121,6 +134,10 @@ export class MenuComponent {
       case "auth/email-already-in-use": this.errors.signInEmailAlreadyInUse = true; break;
       default: alert("Se ha producido un error desconocido. L2"); console.log(error); break;
     }
+  }
+
+  ngOnInit(): void {
+    this.getCategories();
   }
 
   /**
