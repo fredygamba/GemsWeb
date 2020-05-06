@@ -1,8 +1,9 @@
 <div class="header">
     <div class="row">
         <div class=" col-9">
-            <button class="btn btn-primary" data-target="#categoryModal" data-toggle="modal" type="button"><i
-                    class="fas fa-paper-plane"></i>+ Agregar categoría</button>
+            <button class="btn btn-primary" data-target="#categoryCreatorModal" data-toggle="modal" type="button">
+                <i class="fas fa-plus"></i> Agregar categoría
+            </button>
         </div>
         <input class="form-control col-3" (keyup)="filterCategories()" [(ngModel)]="searchText" placeholder="Buscar..."
             type="search">
@@ -19,8 +20,7 @@
 </div>
 
 <!-- Modal categories -->
-<div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-    aria-hidden="true">
+<div class="modal fade" id="categoryCreatorModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -29,24 +29,27 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <!-- FORM MATEGORIES INIT  (ngSubmit)="save(null)"-->
-                <form [formGroup]="formCategories">
+            <form [formGroup]="formCategory" (ngSubmit)="addCategory()">
+                <div class="modal-body">
+                    <!-- Name -->
                     <div class="form-group">
                         <label>Nombre</label>
-                        <input class="form-control" formControlName="nameFormCategory" (keyup)="errorsNewCategories.newCategory = false"
-                            type="text" placeholder="Nombre de la categoría">
-                        <small class="form-text text-muted invalid-feedback" *ngIf="true">
-                            Hola
+                        <input class="form-control" formControlName="name" (keyup)="errors.categoryName = false"
+                            [ngClass]="categoryName.dirty ? (categoryName.valid ? 'is-valid' : 'is-invalid') : ''"
+                            placeholder="Nombre de la categoría" type="text">
+                        <small class="form-text text-muted" *ngIf="errors.categoryName">
+                            Debes ingresar un nombre con mínimo 3 letras.
                         </small>
                     </div>
-                </form>
-                <!-- END FORM CATEGORIES -->
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" (click)="save(null)">Guardar</button>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Cancelar</button>
+                    <button class="btn btn-primary" [class.disabled]="status.addingCategory" type="submit">
+                        <span class="spinner-border spinner-border-sm" *ngIf="status.addingCategory"></span>
+                        Guardar
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

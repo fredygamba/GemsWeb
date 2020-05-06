@@ -3,6 +3,7 @@ import { Category } from 'src/app/entities/Category';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
 import { AbstractControl, FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CategoryCreatorComponent } from '../category-creator/category-creator.component';
 
 @Component({
   selector: 'app-category',
@@ -50,6 +51,11 @@ export class CategoryComponent {
 
   editCategory2(content) {
     this.modalService.open(content, { centered: true });
+  }
+
+  openEditor() {
+    const modalRef = this.modalService.open(CategoryCreatorComponent, { centered: true });
+    modalRef.componentInstance.category = this.category;
   }
 
   removeCategory(categoryId: string) {

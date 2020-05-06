@@ -11,7 +11,7 @@ export class CategoriesService {
   private categoriesCollection: AngularFirestoreCollection<Category>;
 
   constructor(private firestore: AngularFirestore) {
-    this.categoriesCollection = firestore.collection<Category>('categories', ref => ref.orderBy("name"));
+    this.categoriesCollection = firestore.collection<Category>('categories');
   }
   /**
    * Metodo para agregar una categoria a firebase

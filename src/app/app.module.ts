@@ -22,6 +22,7 @@ import { CategoryComponent } from './components/categories/category/category.com
 import { UsersComponent } from './components/users/users/users.component';
 import { SignInComponent } from './components/users/sign-in/sign-in.component';
 import { LoginComponent } from './components/users/login/login.component';
+import { CategoryCreatorComponent } from './components/categories/category-creator/category-creator.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { LoginComponent } from './components/users/login/login.component';
     CategoryComponent,
     UsersComponent,
     SignInComponent,
-    LoginComponent
+    LoginComponent,
+    CategoryCreatorComponent
   ],
   imports: [
     AngularFireAuthModule,
