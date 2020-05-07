@@ -23,6 +23,8 @@ import { UsersComponent } from './components/users/users/users.component';
 import { SignInComponent } from './components/users/sign-in/sign-in.component';
 import { LoginComponent } from './components/users/login/login.component';
 import { CategoryCreatorComponent } from './components/categories/category-creator/category-creator.component';
+import { IconsComponent } from './components/icons/icons/icons.component';
+import { IconComponent } from './components/icons/icon/icon.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import { CategoryCreatorComponent } from './components/categories/category-creat
     UsersComponent,
     SignInComponent,
     LoginComponent,
-    CategoryCreatorComponent
+    CategoryCreatorComponent,
+    IconsComponent,
+    IconComponent
   ],
   imports: [
     AngularFireAuthModule,

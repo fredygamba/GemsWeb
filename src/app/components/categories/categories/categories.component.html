@@ -5,8 +5,7 @@
                 <i class="fas fa-plus"></i> Agregar categoría
             </button>
         </div>
-        <input class="form-control col-3" (keyup)="filterCategories()" [(ngModel)]="searchText" placeholder="Buscar..."
-            type="search">
+        <input class="form-control col-3" (keyup)="filterCategories()" [(ngModel)]="searchText" placeholder="Buscar..." type="search">
     </div>
 </div>
 
@@ -34,9 +33,7 @@
                     <!-- Name -->
                     <div class="form-group">
                         <label>Nombre</label>
-                        <input class="form-control" formControlName="name" (keyup)="errors.categoryName = false"
-                            [ngClass]="categoryName.dirty ? (categoryName.valid ? 'is-valid' : 'is-invalid') : ''"
-                            placeholder="Nombre de la categoría" type="text">
+                        <input class="form-control" formControlName="name" (keyup)="errors.categoryName = false" [ngClass]="categoryName.dirty ? (categoryName.valid ? 'is-valid' : 'is-invalid') : ''" placeholder="Nombre de la categoría" type="text">
                         <small class="form-text text-muted" *ngIf="errors.categoryName">
                             Debes ingresar un nombre con mínimo 3 letras.
                         </small>

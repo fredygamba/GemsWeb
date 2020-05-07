@@ -1,0 +1,52 @@
+<div class="header">
+    <div class="row">
+        <div class=" col-9">
+            <button class="btn btn-primary" data-target="#modalAddIcon" data-toggle="modal" type="button">
+                <i class="fas fa-plus"></i> Agregar Icono
+            </button>
+        </div>
+        <input class="form-control col-3" placeholder="Buscar..." (keyup)="filterIcons()" [(ngModel)]="searchIcon" type="search">
+    </div>
+</div>
+
+<!-- Contenedor de Iconos -->
+<div class="icons-container">
+    <div class="row">
+        <div *ngFor="let icon of filteredIcons">
+            <app-icon class="col" [icon]="icon"></app-icon>
+        </div>
+    </div>
+</div>
+
+<!-- Modal agregar Icono -->
+<div class="modal fade" id="modalAddIcon" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Agregar icono</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form [formGroup]="formIcons" (ngSubmit)="addIcon()">
+                <div class="modal-body">
+                    <!-- Name -->
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input class="form-control" formControlName="name" placeholder="Nombre del icono" type="text">
+                        <small class="form-text text-muted" *ngIf="">
+                            Debes ingresar un nombre con mínimo 3 letras.
+                        </small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Cancelar</button>
+                    <button class="btn btn-primary" type="submit">
+                        <!-- <span class="spinner-border spinner-border-sm"></span> -->
+                        Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,63 @@
+<div class="card">
+    <div class="card-body rounded">
+        <div style="text-align: center;">
+            <div style="text-align: center;">
+                <i style="font-size: 30px;" class="fas {{icon.name}}"></i>
+                <p>{{icon.name.substr(3,icon.name.length)}}</p>
+            </div>
+            <div class="btn-group" role="group">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button class="btn btn-primary" (click)="openModalEditIcon(modalEditIcon)" type="button">
+                        <i class="fas fa-pen"></i></button>
+                    <button class="btn btn-danger" type="button" (click)="openModalRemoveIcon(modalRemoveIcon)">
+                        <i class="fas fa-trash"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Editar -->
+<ng-template #modalEditIcon let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Editar icono</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <form [formGroup]="formIcon">
+        <div class="modal-body">
+            <label>¿Desea editar el icono: {{icon.name}} ?</label>
+            <div style="text-align: center;">
+                <i style="font-size: 30px;" class="fas {{icon.name}}"></i>
+            </div>
+            <input class="form-control" formControlName="name" type="text" value="{{icon.name}}" placeholder=" Digite el nuevo nombre">
+        </div>
+    </form>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="editIcon()">Editar icono</button>
+    </div>
+</ng-template>
+
+<!-- Modal Eliminar -->
+<ng-template #modalRemoveIcon let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Eliminar icono</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p>¿Está seguro que desea eliminar el icono {{icon.name}}?</p>
+        <div style="text-align: center;">
+            <i style="font-size: 30px;" class="fas {{icon.name}}"></i>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="removeIcon()">Eliminar icono</button>
+    </div>
+</ng-template>
+
+<!-- Modal confirm edit  -->
