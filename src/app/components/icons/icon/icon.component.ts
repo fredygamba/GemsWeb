@@ -22,13 +22,14 @@ export class IconComponent implements OnInit {
 
   constructor(
     private iconService: IconService,
-    private modalService: NgbModal ) {
-     }
-  
+    private modalService: NgbModal) {
+  }
+
   private buildFormIcon() {
     this.formIcon = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.minLength(3)])
     });
+    this.formIcon.get("name").setValue(this.icon.name);
   }
 
   private builIcon(): Icon {
@@ -51,12 +52,13 @@ export class IconComponent implements OnInit {
     return this.formIcon.get("name");
   }
 
-  openModalRemoveIcon(content) {
-    this.modalRemove = this.modalService.open(content, { centered: true });
-  }
 
   openModalEditIcon(content) {
     this.modalEdit = this.modalService.open(content, { centered: true });
+  }
+
+  openModalRemoveIcon(content) {
+    this.modalRemove = this.modalService.open(content, { centered: true });
   }
 
   ngOnInit(): void {
@@ -64,9 +66,9 @@ export class IconComponent implements OnInit {
   }
 
   removeIcon() {
-      this.iconService.removeIcon(this.icon.id).then(() => { console.log("Eliminado!"); })
+    this.iconService.removeIcon(this.icon.id).then(() => { console.log("Eliminado!"); })
       .catch(error => { alert("Ha ocurrido un error al eliminar el icono."); });
-      this.modalRemove.close();
+    this.modalRemove.close();
   }
 
 }

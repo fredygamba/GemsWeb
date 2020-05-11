@@ -20,6 +20,7 @@ export class CategoriesService {
   addCategory(category: Category) {
     return this.categoriesCollection.add(category);
   }
+  
   /**
    * Metodo para editar una categoriay actualizar los datos en firebase
    * @param id 
@@ -28,6 +29,7 @@ export class CategoriesService {
   editCategory(id: string, category: Category) {
     return this.categoriesCollection.doc(id).update(category);
   }
+
   /**
    * Metodo para obtener una categoria especificada por un identificador
    * @param id 
@@ -35,6 +37,7 @@ export class CategoriesService {
   getCategory(id: string) {
     return this.categoriesCollection.doc<Category>(id).valueChanges();
   }
+
   /**
    * Metodo para obtener todas las categorias
    */

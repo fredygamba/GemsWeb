@@ -5,7 +5,8 @@
                 <i class="fas fa-plus"></i> Agregar Icono
             </button>
         </div>
-        <input class="form-control col-3" placeholder="Buscar..." (keyup)="filterIcons()" [(ngModel)]="searchIcon" type="search">
+        <input class="form-control col-3" placeholder="Buscar..." (keyup)="filterIcons()" [(ngModel)]="searchIcon"
+            type="search">
     </div>
 </div>
 
@@ -38,24 +39,29 @@
                             Debes ingresar un nombre con mínimo 3 letras.
                         </small>
                     </div>
+
+                    <div class="form-group" style="height: 200px;">
+                        <label>Asodijasoidj</label>
+                        <ngx-dropzone (change)="onSelect($event)">
+                            <ngx-dropzone-label>Subir archivo aqui</ngx-dropzone-label>
+                            <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+                                <ngx-dropzone-label>{{f.name}}</ngx-dropzone-label>
+                            </ngx-dropzone-preview>
+                        </ngx-dropzone>
+                    </div>
                 </div>
                 <!-- Subir imagen por boton -->
-                <div class="form-inline position-button-search">
+                <!-- <div class="form-inline position-button-search">
                     <div class="form-group">
                         <input type="file" accept="image/jpeg, image/svg" (change)="handleImage($event)">
                     </div>
                     <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Subir
                         Archivo(s)</button>
-                </div>
+                </div> -->
 
                 <!-- Drop Zone -->
-                <h4 style="text-align: center;">Arrastre y Suelte el archivo</h4>
-                <ngx-dropzone (change)="onSelect($event)">
-                    <ngx-dropzone-label>Subir archivo aqui</ngx-dropzone-label>
-                    <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
-                        <ngx-dropzone-label>{{f.name}}</ngx-dropzone-label>
-                    </ngx-dropzone-preview>
-                </ngx-dropzone>
+                <!-- <h4 style="text-align: center;">Arrastre y Suelte el archivo</h4> -->
+
 
                 <div class="modal-footer">
                     <button class="btn btn-secondary" data-dismiss="modal" type="button">Cancelar</button>

@@ -27,15 +27,18 @@
     </div>
     <form [formGroup]="formIcon">
         <div class="modal-body">
-            <label>¿Desea editar el icono: {{icon.name}} ?</label>
-            <div style="text-align: center;">
-                <i style="font-size: 30px;" class="fas {{icon.name}}"></i>
+            <label>Ingresa el nuevo valor al icono:</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1"><i [class]="'fas ' + name.value"></i></span>
+                </div>
+                <input class="form-control" formControlName="name" type="text" [value]="icon.name"
+                    placeholder="Digíte el nuevo nombre">
             </div>
-            <input class="form-control" formControlName="name" type="text" value="{{icon.name}}" placeholder=" Digite el nuevo nombre">
         </div>
     </form>
     <div class="modal-footer">
-        <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Cancelar</button>
+        <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Cancelar</button>
         <button type="button" class="btn btn-primary" (click)="editIcon()">Editar icono</button>
     </div>
 </ng-template>
@@ -55,9 +58,8 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Cancelar</button>
-        <button type="button" class="btn btn-primary" (click)="removeIcon()">Eliminar icono</button>
+        <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="removeIcon()">Eliminar icono</button>
     </div>
 </ng-template>
-
 <!-- Modal confirm edit  -->
