@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { Category } from 'src/app/entities/Category';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CategoryCreatorComponent } from '../category-creator/category-creator.component';
+import { IconService } from 'src/app/services/icons/icon.service';
+import { Icon } from 'src/app/entities/Icon';
 
 @Component({
   selector: 'app-categories',
@@ -16,12 +16,18 @@ export class CategoriesComponent implements OnInit {
   public errors = { categoryName: false };
   public status = { addingCategory: false }
   public filteredCategories: Category[];
+  public filteredIconsInCategories: Icon[];
   public formCategory: FormGroup;
+  public listIcon: Icon[];
   public searchText: string;
+  public searchIconInCategories: string;
 
-  constructor(private categoriesService: CategoriesService) {
+  constructor(private categoriesService: CategoriesService,
+              private iconService: IconService) {
     this.categories = [];
     this.filteredCategories = [];
+    this.listIcon = [];
+    this.filteredIconsInCategories = [];
     this.buildFormCategory();
   }
 
@@ -67,13 +73,27 @@ export class CategoriesComponent implements OnInit {
       for (let i = 0; i < this.categories.length; i++) {
         var categoryAux = this.categories[i].name.toLowerCase();
         if (categoryAux.includes(this.searchText.toLowerCase())) {
-          //console.log("categoria : " + categoryAux + " palabra a buscar " + this.searchText.toLowerCase());
           this.filteredCategories.push(this.categories[i]);
         }
       }
       return this.filteredCategories;
     }
   }
+
+  filterIconsInCategories() {
+    this.filteredIconsInCategories= [];
+    if (this.searchIconInCategories != undefined) {
+      for (let i = 0; i < this.listIcon.length; i++) {
+        var iconAux = this.listIcon[i];
+        if (this.searchTexttoIcon(this.searchIconInCategories, iconAux)) {
+          this.filteredIconsInCategories.push(iconAux);
+        }
+      }
+      return this.filteredIconsInCategories;
+    }else {
+      return this.listIcon;
+    }
+   }
 
   get categoryName(): AbstractControl {
     return this.formCategory.get("name");
@@ -86,8 +106,23 @@ export class CategoriesComponent implements OnInit {
     });
   }
 
+  getIcons() {
+    this.iconService.getIcons().subscribe(result => {
+      this.listIcon = result;
+      this.filteredIconsInCategories = result;
+    });
+  }
+
   ngOnInit(): void {
     this.getCategories();
+    this.getIcons();
+  }
+
+  searchTexttoIcon(searchText: string, icon: Icon):boolean {
+    if (icon.name.toLowerCase().includes(searchText.toLowerCase())) {
+      return true;
+    }
+    return false;
   }
 
   /**

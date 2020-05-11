@@ -11,3 +11,22 @@
     //background-color: greenyellow;
     float: left;
 }
+
+.position-button-search {
+    width: 100%;
+    height: 50px;
+    justify-content: center;
+    align-content: center;
+}
+
+.upload-drop-zone {
+    width: 100%;
+    height: 40%;
+    color: #ccc;
+    border-style: dashed;
+    border-color: #ccc;
+    line-height: 200px;
+    text-align: center;
+    justify-content: center;
+    align-content: center;
+}

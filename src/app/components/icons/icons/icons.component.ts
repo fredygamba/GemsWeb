@@ -14,6 +14,8 @@ export class IconsComponent implements OnInit {
   public filteredIcons: Icon[];
   public formIcons: FormGroup;
   public searchIcon: string;
+  private image: File;
+  public files: File[] = [];
 
   constructor(private iconService: IconService) { 
     this.listIcon = [];
@@ -65,6 +67,29 @@ export class IconsComponent implements OnInit {
     });
   }
 
+  handleImage(event) {
+    this.image = event.target.files[0];
+    //const file = event.target.files[0];
+    this.files.push(this.image);
+    console.log("Imagen: ", this.image);
+    
+  }
+
+  onSelect(event) {
+    console.log(event);
+    this.files.push(...event.addedFiles);
+  }
+   
+  onRemove(event) {
+    console.log(event);
+    this.files.splice(this.files.indexOf(event), 1);
+  }
+
+  initComponentDrope() {
+    var dropZone = document.getElementById('drop-zone');
+    dropZone.ondrop
+  }
+
   ngOnInit(): void {
     this.getIcons();
   }
@@ -79,36 +104,34 @@ export class IconsComponent implements OnInit {
   validateIcon(): boolean{
     var iconName: AbstractControl = this.formIcons.get("name");
     iconName.patchValue(iconName.value.replace(/\s+/g, ' ').trim());
+    iconName.patchValue(this.validateNameIcon(iconName.value));
     if (!iconName.valid) {
       this.formIcons.markAsDirty();
-      console.log("Nombre xD: " + iconName.value);
       return false;
     }
     return true;
   }
 
-  validateNameIcon(nameIcon: string) {
+  validateNameIcon(nameIcon: string):string {
     var aux: string = "";
-    var positionCom: number;
     if (nameIcon.includes("<i") && nameIcon.includes("class")) {
       for (let i = 0; i < nameIcon.length; i++) {
-        if (nameIcon.charAt[i] =='f' && (i < nameIcon.length) && nameIcon.charAt[i+2] == '-') {
+        if (nameIcon.charAt(i) =='f' && (i < nameIcon.length) && nameIcon.charAt(i+2) == '-') {
           for (let j = i; j < nameIcon.length; j++) {
-            if (nameIcon.charAt[j] != '"') {
-              aux += nameIcon.charAt[j];
+            if (nameIcon.charAt(j) != '"') {
+              aux += nameIcon.charAt(j);
             }else{
-              console.log("1." + aux);
-              break;
+              return aux;
             }
           }
         }
       }
     }else if (!nameIcon.includes("fa-")) {
       aux = "fa-" + nameIcon;
-      console.log("2." + aux);
+      return aux;
     }else {
       aux = nameIcon;
-      console.log("3." + aux);
+      return aux;
     }
   }
 

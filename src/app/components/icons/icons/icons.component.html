@@ -39,6 +39,24 @@
                         </small>
                     </div>
                 </div>
+                <!-- Subir imagen por boton -->
+                <div class="form-inline position-button-search">
+                    <div class="form-group">
+                        <input type="file" accept="image/jpeg, image/svg" (change)="handleImage($event)">
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Subir
+                        Archivo(s)</button>
+                </div>
+
+                <!-- Drop Zone -->
+                <h4 style="text-align: center;">Arrastre y Suelte el archivo</h4>
+                <ngx-dropzone (change)="onSelect($event)">
+                    <ngx-dropzone-label>Subir archivo aqui</ngx-dropzone-label>
+                    <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+                        <ngx-dropzone-label>{{f.name}}</ngx-dropzone-label>
+                    </ngx-dropzone-preview>
+                </ngx-dropzone>
+
                 <div class="modal-footer">
                     <button class="btn btn-secondary" data-dismiss="modal" type="button">Cancelar</button>
                     <button class="btn btn-primary" type="submit">

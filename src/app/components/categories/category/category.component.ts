@@ -5,6 +5,7 @@ import { AbstractControl, FormGroup, FormControl, Validators } from '@angular/fo
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CategoryCreatorComponent } from '../category-creator/category-creator.component';
 
+
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
