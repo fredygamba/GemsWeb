@@ -45,7 +45,8 @@
                         <ngx-dropzone (change)="onSelect($event)">
                             <ngx-dropzone-label>Subir archivo aqui</ngx-dropzone-label>
                             <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
-                                <ngx-dropzone-label>{{f.name}}</ngx-dropzone-label>
+                                <ngx-dropzone-label>{{ f.name }}</ngx-dropzone-label>
+                                <img src="">
                             </ngx-dropzone-preview>
                         </ngx-dropzone>
                     </div>

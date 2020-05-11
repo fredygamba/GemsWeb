@@ -16,8 +16,9 @@ export class IconsComponent implements OnInit {
   public searchIcon: string;
   private image: File;
   public files: File[] = [];
+  public iconBase64: string;
 
-  constructor(private iconService: IconService) { 
+  constructor(private iconService: IconService) {
     this.listIcon = [];
     this.filteredIcons = [];
     this.buildFormIcon();
@@ -42,7 +43,7 @@ export class IconsComponent implements OnInit {
   }
 
   filterIcons() {
-    this.filteredIcons= [];
+    this.filteredIcons = [];
     if (this.searchIcon != undefined) {
       for (let i = 0; i < this.listIcon.length; i++) {
         var userAux = this.listIcon[i];
@@ -51,10 +52,10 @@ export class IconsComponent implements OnInit {
         }
       }
       return this.filteredIcons;
-    }else {
+    } else {
       return this.listIcon;
     }
-   }
+  }
 
   get iconName(): AbstractControl {
     return this.formIcons.get("name");
@@ -72,14 +73,26 @@ export class IconsComponent implements OnInit {
     //const file = event.target.files[0];
     this.files.push(this.image);
     console.log("Imagen: ", this.image);
-    
+
   }
 
   onSelect(event) {
-    console.log(event);
+    // console.log(event);
     this.files.push(...event.addedFiles);
+    this.convertToBase64(this.files[0]).then((res: string) => {
+      this.iconBase64 = res;
+    });
   }
-   
+
+  convertToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
+  }
+
   onRemove(event) {
     console.log(event);
     this.files.splice(this.files.indexOf(event), 1);
@@ -94,14 +107,14 @@ export class IconsComponent implements OnInit {
     this.getIcons();
   }
 
-  searchTexttoIcon(searchText: string, icon: Icon):boolean {
+  searchTexttoIcon(searchText: string, icon: Icon): boolean {
     if (icon.name.toLowerCase().includes(searchText.toLowerCase())) {
       return true;
     }
     return false;
   }
 
-  validateIcon(): boolean{
+  validateIcon(): boolean {
     var iconName: AbstractControl = this.formIcons.get("name");
     iconName.patchValue(iconName.value.replace(/\s+/g, ' ').trim());
     iconName.patchValue(this.validateNameIcon(iconName.value));
@@ -112,24 +125,24 @@ export class IconsComponent implements OnInit {
     return true;
   }
 
-  validateNameIcon(nameIcon: string):string {
+  validateNameIcon(nameIcon: string): string {
     var aux: string = "";
     if (nameIcon.includes("<i") && nameIcon.includes("class")) {
       for (let i = 0; i < nameIcon.length; i++) {
-        if (nameIcon.charAt(i) =='f' && (i < nameIcon.length) && nameIcon.charAt(i+2) == '-') {
+        if (nameIcon.charAt(i) == 'f' && (i < nameIcon.length) && nameIcon.charAt(i + 2) == '-') {
           for (let j = i; j < nameIcon.length; j++) {
             if (nameIcon.charAt(j) != '"') {
               aux += nameIcon.charAt(j);
-            }else{
+            } else {
               return aux;
             }
           }
         }
       }
-    }else if (!nameIcon.includes("fa-")) {
+    } else if (!nameIcon.includes("fa-")) {
       aux = "fa-" + nameIcon;
       return aux;
-    }else {
+    } else {
       aux = nameIcon;
       return aux;
     }
