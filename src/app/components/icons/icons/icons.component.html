@@ -39,8 +39,8 @@
                             Debes ingresar un nombre con mínimo 3 letras.
                         </small>
                     </div>
-
-                    <div class="form-group" style="height: 200px;">
+                    <label></label>
+                    <div *ngIf="files?.length == 0" class="form-group" style="height: 200px;">
                         <label>Suelte o seleccione un archivo</label>
                         <ngx-dropzone (change)="onSelect($event)">
                             <ngx-dropzone-label>Arrastre o seleccione un archivo</ngx-dropzone-label>
@@ -49,6 +49,9 @@
                                 <img src="">
                             </ngx-dropzone-preview>
                         </ngx-dropzone>
+                    </div>
+                    <div *ngIf="files.length > 0">
+                        <img [src]="iconBase64">
                     </div>
                 </div>
                 <!-- Subir imagen por boton -->

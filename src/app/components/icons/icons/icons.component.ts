@@ -22,6 +22,7 @@ export class IconsComponent implements OnInit {
     this.listIcon = [];
     this.filteredIcons = [];
     this.buildFormIcon();
+    console.log(this.files);
   }
 
   public addIcon() {
@@ -77,10 +78,11 @@ export class IconsComponent implements OnInit {
   }
 
   onSelect(event) {
-    // console.log(event);
     this.files.push(...event.addedFiles);
-    this.convertToBase64(this.files[0]).then((res: string) => {
-      this.iconBase64 = res;
+    this.convertToBase64(this.files[0]).then((res) => {
+      console.log(res);
+      this.iconBase64 = "" + res;
+      // console.log("" + this.iconBase64);
     });
   }
 
@@ -100,7 +102,7 @@ export class IconsComponent implements OnInit {
 
   initComponentDrope() {
     var dropZone = document.getElementById('drop-zone');
-    dropZone.ondrop
+    dropZone.ondrop;
   }
 
   ngOnInit(): void {
