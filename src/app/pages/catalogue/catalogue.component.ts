@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { GemComponent } from 'src/app/components/gems/gem/gem.component';
+import { Gem } from 'src/app/entities/Gem';
 
 @Component({
   selector: 'app-catalogue',
@@ -7,9 +10,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CatalogueComponent implements OnInit {
 
-  constructor() { }
+  constructor(private modalService: NgbModal) { }
 
   ngOnInit(): void {
+  }
+
+  public openGemCreator() {
+    this.modalService.open(GemComponent, { centered: true });
+  }
+
+  public openGemEditor(gem: Gem) {
+    let gemEditor = this.modalService.open(GemComponent, { centered: true });
+    gemEditor.componentInstance.gem = gem;
   }
 
 }

@@ -28,6 +28,7 @@ import { IconsComponent } from './components/icons/icons/icons.component';
 import { IconComponent } from './components/icons/icon/icon.component';
 import { UserEditorComponent } from './components/users/user-editor/user-editor.component';
 import { GemComponent } from './components/gems/gem/gem.component';
+import { GemCreatorComponent } from './components/gems/gem-creator/gem-creator.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { GemComponent } from './components/gems/gem/gem.component';
     IconsComponent,
     IconComponent,
     UserEditorComponent,
-    GemComponent
+    GemComponent,
+    GemCreatorComponent
   ],
   imports: [
     AngularFireAuthModule,
