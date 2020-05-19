@@ -1,21 +1,23 @@
-.div-profile{
+.banner {
+  background-color: gray;
+  display: block;
+  overflow: hidden;
   width: 100%;
-  height: 100px;
-  background-color: grey;
-  float: none;
-}
-.div-user-img{
-  width: 70px;
-  height: 70px;
-  margin-left: 220px;
+  height: 250px;
 }
 
-#info-user-name{
+.photo {
+  background-color: green;
+  height: 100px;
   text-align: center;
-  font-family:"Times New Roman", Times, serif, Tahoma;
+  width: 100%;
 }
-#info-user-email{
-  text-align: center;
-  font-family:"Times New Roman", Times, serif, Tahoma;
-  color: #515A5A;
+
+.photo > img {
+  border-radius: 50%;
+  height: 200px;
+  margin-top: -100px;
+  position: relative;
+  width: 200px;
+  z-index: 1;
 }
