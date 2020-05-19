@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UsersService } from 'src/app/services/users/users.service';
 import { User } from 'src/app/entities/User';
 import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { UserEditorComponent } from '../user-editor/user-editor.component';
 
 @Component({
   selector: 'app-users',
@@ -12,7 +13,7 @@ export class UsersComponent implements OnInit {
   
   public filteredUsers: User[];
   public listAtributes: string[];
-  public modalRemove: NgbModalRef;
+  public userEditor: NgbModalRef;
   public searchUser: string;
   public user: User;
   public users: User[];
@@ -52,14 +53,19 @@ export class UsersComponent implements OnInit {
   }
 
   openModalRemoveUser(content, userA: User) {
-    this.modalRemove = this.modalService.open(content, { centered: true });
+    this.userEditor = this.modalService.open(content, { centered: true });
     this.user = userA;
+  }
+
+  public openUserEditor(user: User){
+    var modalUserEditor = this.modalService.open(UserEditorComponent, { centered: true });
+    modalUserEditor.componentInstance.user = user;
   }
 
   removeUser() {
     this.userService.removeUser(this.user.id).then(() => { console.log("Usuario Eliminado!"); })
       .catch(error => { alert("Ha ocurrido un error al eliminar el usuario."); });
-    this.modalRemove.close();
+    this.userEditor.close();
   }
 
   searchTexttoUser(searchText: string, user: User):boolean {
