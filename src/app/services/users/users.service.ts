@@ -80,8 +80,10 @@ export class UsersService {
     localStorage.setItem("user", null);
     this.firebaseAuth.auth.signOut();
   }
-
-  removeUser() { }
+  // Estaba vacio
+  removeUser(id: string) {
+    return this.usersCollection.doc(id).delete();
+   }
 
   saveUserInStorage() {
     localStorage.setItem("user", JSON.stringify(this.user));

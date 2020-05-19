@@ -15,8 +15,6 @@ export class IconComponent implements OnInit {
   public formIcon: FormGroup;
   @Input()
   public icon: Icon;
-  public auxNameIcon: string;
-  public newNameIcon: string = "";
   public modalRemove: NgbModalRef;
   public modalEdit: NgbModalRef;
 
@@ -29,7 +27,7 @@ export class IconComponent implements OnInit {
     this.formIcon = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.minLength(3)])
     });
-    this.formIcon.get("name").setValue(this.icon.name);
+    this.formIcon.get("name").setValue(this.validateNameIcon(this.icon.name));
   }
 
   private builIcon(): Icon {
@@ -42,7 +40,7 @@ export class IconComponent implements OnInit {
     var editNewIcon: Icon = this.builIcon();
     if (confirm("¿Deséa editar esta categoría?")) {
       this.iconService.editIcon(this.icon.id, editNewIcon)
-        .then(() => { console.log("Editado con éxito"); })
+        .then(() => { this.icon.name = this.validateNameIcon(editNewIcon.name) })
         .catch(error => { alert("Ha ocurrido un error al editar la categoría."); });
     }
     this.modalEdit.close();
@@ -69,6 +67,29 @@ export class IconComponent implements OnInit {
     this.iconService.removeIcon(this.icon.id).then(() => { console.log("Eliminado!"); })
       .catch(error => { alert("Ha ocurrido un error al eliminar el icono."); });
     this.modalRemove.close();
+  }
+
+  validateNameIcon(nameIcon: string): string {
+    var aux: string = "";
+    if (nameIcon.includes("<i") && nameIcon.includes("class")) {
+      for (let i = 0; i < nameIcon.length; i++) {
+        if (nameIcon.charAt(i) == 'f' && (i < nameIcon.length) && nameIcon.charAt(i + 2) == '-') {
+          for (let j = i; j < nameIcon.length; j++) {
+            if (nameIcon.charAt(j) != '"') {
+              aux += nameIcon.charAt(j);
+            } else {
+              return aux;
+            }
+          }
+        }
+      }
+    } else if (!nameIcon.includes("fa-")) {
+      aux = "fa-" + nameIcon;
+      return aux;
+    } else {
+      aux = nameIcon;
+      return aux;
+    }
   }
 
 }

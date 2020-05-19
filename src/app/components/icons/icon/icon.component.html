@@ -2,8 +2,8 @@
     <div class="card-body rounded">
         <div style="text-align: center;">
             <div style="text-align: center;">
-                <i style="font-size: 30px;" class="fas {{icon.name}}"></i>
-                <p>{{icon.name.substr(3,icon.name.length)}}</p>
+                <i style="font-size: 30px;" class="fas {{ validateNameIcon(icon.name) }}"></i>
+                <p>{{ validateNameIcon(icon.name) }}</p>
             </div>
             <div class="btn-group" role="group">
                 <div class="btn-group" role="group" aria-label="Basic example">
@@ -30,10 +30,9 @@
             <label>Ingresa el nuevo valor al icono:</label>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1"><i [class]="'fas ' + name.value"></i></span>
+                    <span class="input-group-text" id="basic-addon1"><i [class]="'fas ' + validateNameIcon(name.value)"></i></span>
                 </div>
-                <input class="form-control" formControlName="name" type="text" [value]="icon.name"
-                    placeholder="Digíte el nuevo nombre">
+                <input class="form-control" formControlName="name" type="text" [value]="icon.name" placeholder="Digíte el nuevo nombre">
             </div>
         </div>
     </form>

@@ -140,4 +140,27 @@ export class CategoriesComponent implements OnInit {
     return true;
   }
 
+  validateNameIcon(nameIcon: string): string {
+    var aux: string = "";
+    if (nameIcon.includes("<i") && nameIcon.includes("class")) {
+      for (let i = 0; i < nameIcon.length; i++) {
+        if (nameIcon.charAt(i) == 'f' && (i < nameIcon.length) && nameIcon.charAt(i + 2) == '-') {
+          for (let j = i; j < nameIcon.length; j++) {
+            if (nameIcon.charAt(j) != '"') {
+              aux += nameIcon.charAt(j);
+            } else {
+              return aux;
+            }
+          }
+        }
+      }
+    } else if (!nameIcon.includes("fa-")) {
+      aux = "fa-" + nameIcon;
+      return aux;
+    } else {
+      aux = nameIcon;
+      return aux;
+    }
+  }
+
 }
