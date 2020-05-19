@@ -41,23 +41,25 @@
                 </div>
             </form>
             <!-- input search icon -->
-            <label>Asignar icono:</label>
-            <div class="input-group input-group-sm mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="inputGroup-sizing-sm">Buscar icono</span>
-                </div>
-                <!--  [(ngModel)]="searchIconInCategories" -->
-                <input placeholder="Buscar..." (keyup)="filterIconsInCategories()" [(ngModel)]="searchIconInCategories" type="search" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Asignar icono:</label>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                        </div>
+                        <input placeholder="Buscar..." (keyup)="filterIconsInCategories()" [(ngModel)]="searchIconInCategories" type="search" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                    </div>
 
-            <!-- Show Icons in Categories -->
-            <div class="scroll-ejem">
-                <div *ngFor="let icon of filteredIconsInCategories">
-                    <!-- <app-icon class="col" [icon]="icon"></app-icon> -->
-                    <div class="icons-container" style="text-align: center;">
-                        <button type="button" class="btn btn-light">
-                            <i style="font-size: 30px;" class="fas {{icon.name}}"></i>
-                        </button>
+                    <!-- Show Icons in Categories -->
+                    <div class="scroll-ejem">
+                        <div *ngFor="let icon of filteredIconsInCategories">
+                            <!-- <app-icon class="col" [icon]="icon"></app-icon> -->
+                            <div class="icons-container" style="text-align: center;">
+                                <button type="button" class="btn btn-light">
+                                    <i style="font-size: 30px;" class="fas {{validateNameIcon(icon.name)}}"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from 'src/app/services/users/users.service';
 import { User } from 'src/app/entities/User';
+import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-users',
@@ -8,13 +9,17 @@ import { User } from 'src/app/entities/User';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
-
-  public listAtributes: string[];
-  public users: User[];
-  public filteredUsers: User[];
-  public searchUser: string;
   
-  constructor(private userService: UsersService) {
+  public filteredUsers: User[];
+  public listAtributes: string[];
+  public modalRemove: NgbModalRef;
+  public searchUser: string;
+  public user: User;
+  public users: User[];
+  
+  constructor(
+    private userService: UsersService,
+    private modalService: NgbModal) {
     this.listAtributes= ["Nombres", "Apellidos","Correo electrónico","Tipo de Usuario","Más opciones"];
     this.users= [];
     this.filteredUsers= [];
@@ -44,6 +49,17 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUsers();
+  }
+
+  openModalRemoveUser(content, userA: User) {
+    this.modalRemove = this.modalService.open(content, { centered: true });
+    this.user = userA;
+  }
+
+  removeUser() {
+    this.userService.removeUser(this.user.id).then(() => { console.log("Usuario Eliminado!"); })
+      .catch(error => { alert("Ha ocurrido un error al eliminar el usuario."); });
+    this.modalRemove.close();
   }
 
   searchTexttoUser(searchText: string, user: User):boolean {
